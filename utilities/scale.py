@@ -145,12 +145,11 @@ def _set_body_properties(
 def _apply_segment_properties(
     model_path: Path,
     parameters: RatScalingParameters,
-    subject_mass: float,
 ) -> None:
     model = osim.Model(str(model_path))
     model.setName(model_path.stem)
     model_body_set: osim.BodySet = model.getBodySet()
-
+    subject_mass = parameters["Mass"]
     for side in ["L", "R"]:
         side_short = side.lower()
 
@@ -230,8 +229,8 @@ def scale_opensim_model(
         use_marker_placer=True,
     )
     result = scale_settings.run()
-    if result.success:
-        _apply_segment_properties(scaled_model_path, parameters, parameters["Mass"])
+    if result.success and result.scaled_model_file is not None:
+        _apply_segment_properties(result.scaled_model_file, parameters)
     else:
         raise RuntimeError(f"Scaling failed with errors: {result.errors}")
     return
