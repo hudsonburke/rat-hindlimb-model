@@ -1,0 +1,188 @@
+import marimo
+
+__generated_with = "0.20.4"
+app = marimo.App()
+
+
+@app.cell
+def _():
+    import marimo as mo
+
+    return (mo,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # 02 Muscle edits (unilateral)
+
+    Run this after `01_non_muscle_edits.ipynb`. It applies muscle-specific edits and writes final unilateral outputs.
+    """)
+    return
+
+
+@app.cell
+def _():
+    import opensim as osim
+    from pathlib import Path
+    import polars as pl
+    import numpy as np
+    import sys
+
+    project_root = Path.cwd().resolve()
+    if project_root.name == 'pipeline':
+        project_root = project_root.parent.parent
+    elif project_root.name == 'notebooks':
+        project_root = project_root.parent
+
+    src_dir = project_root / 'src'
+    if str(src_dir) not in sys.path:
+        sys.path.insert(0, str(src_dir))
+
+    from rathindlimb.processing import update_model, remove_muscles
+    from rathindlimb.muscle_utils import model_thelen_to_millard
+    from rathindlimb.registration import register_meshes, apply_transformation_to_mesh, convert_points_between_meshes
+
+    model_dir = project_root / 'models' / 'osim'
+    pipeline_dir = model_dir / '.pipeline'
+    data_dir = project_root / 'data'
+    mesh_dir = project_root / 'models' / 'meshes'
+    attachment_dir = data_dir / 'attachments'
+
+    input_file = pipeline_dir / 'rat_hindlimb_non_muscle.osim'
+    unilateral_out = model_dir / 'rat_hindlimb_unilateral.osim'
+    unilateral_no_muscles_out = model_dir / 'rat_hindlimb_unilateral_no_muscles.osim'
+
+    model = osim.Model(str(input_file))
+    model = model_thelen_to_millard(model)
+    return (
+        apply_transformation_to_mesh,
+        attachment_dir,
+        convert_points_between_meshes,
+        data_dir,
+        mesh_dir,
+        model,
+        model_dir,
+        np,
+        osim,
+        pl,
+        register_meshes,
+        remove_muscles,
+        unilateral_no_muscles_out,
+        unilateral_out,
+        update_model,
+    )
+
+
+@app.cell
+def _(
+    apply_transformation_to_mesh,
+    attachment_dir,
+    mesh_dir,
+    model_dir,
+    pl,
+    register_meshes,
+):
+    source_file = mesh_dir / 'foot3_r_young_no_phalanges.stl'
+    target_file = mesh_dir / 'foot2_r_young.stl'
+    output_file1 = mesh_dir / 'foot_r_young_no_phalanges.stl'
+    foot_file = mesh_dir / 'foot3_r_young.stl'
+    final_file = mesh_dir / 'foot_r_young.stl'
+    transform = register_meshes(source_file, target_file, output_file1, seed=123)
+    apply_transformation_to_mesh(foot_file, transform, final_file)
+    source_postfix = '_young.stl'
+    target_postfix = '_johnson.stl'
+    output_postfix = '.stl'
+    output_dir = model_dir / 'Geometry'
+    meshes = ['spine', 'pelvis_r', 'femur_r', 'tibia_r', 'foot_r']
+    transforms = {}
+    for _mesh in meshes:
+        source_file = mesh_dir / (_mesh + source_postfix)
+        target_file = mesh_dir / (_mesh + target_postfix)
+        output_file = output_dir / (_mesh + output_postfix)
+        transforms[_mesh] = register_meshes(source_file, target_file, output_file, seed=120)
+    young_attachments = pl.read_csv(attachment_dir / 'young_model_attachments.csv')
+    young_attachments = young_attachments.with_columns([pl.col('X (mm)').cast(pl.String).str.strip_chars().cast(pl.Float64), pl.col('Y (mm)').cast(pl.String).str.strip_chars().cast(pl.Float64), pl.col('Z (mm)').cast(pl.String).str.strip_chars().cast(pl.Float64)])
+    return transforms, young_attachments
+
+
+@app.cell
+def _(
+    convert_points_between_meshes,
+    model,
+    np,
+    osim,
+    pl,
+    transforms,
+    young_attachments,
+):
+    body_set = model.getBodySet()
+    for _i in range(body_set.getSize()):
+        body = body_set.get(_i)
+        body.upd_WrapObjectSet().clearAndDestroy()
+    _muscles = model.getMuscles()
+    for _i in range(_muscles.getSize()):
+        _muscle = _muscles.get(_i)
+        _muscle_name = _muscle.getName()
+        geo_path = _muscle.getGeometryPath()
+        path_points = geo_path.getPathPointSet()
+        existing_path_points = path_points.getSize()
+        geo_path.getWrapSet().clearAndDestroy()
+        rows = young_attachments.filter(pl.col('Abbreviation') == _muscle_name.split('R_')[-1])
+        index = 1
+        for row in rows.iter_rows(named=True):
+            lower_frame = row['Frame'].lower()
+            frame = lower_frame + '_r' if lower_frame != 'spine' else lower_frame
+            _mesh = model.getBodySet().get(frame)
+            point_name = _muscle_name + '_' + frame + '_' + row['Type'].lower() + '_' + str(index)
+            young_loc = np.array([[row['X (mm)'], row['Y (mm)'], row['Z (mm)']]]) / 100
+            loc = convert_points_between_meshes(young_loc, transforms[frame])
+            vec = osim.Vec3(loc[0][0], loc[0][1], loc[0][2])
+            _muscle.addNewPathPoint(point_name, _mesh, vec)
+            index = index + 1
+        for j in range(existing_path_points - 1, -1, -1):
+            path_points.remove(j)
+    return
+
+
+@app.cell
+def _(
+    data_dir,
+    model,
+    np,
+    osim,
+    pl,
+    remove_muscles,
+    unilateral_no_muscles_out,
+    unilateral_out,
+    update_model,
+):
+    parameter_dir = data_dir / 'parameters'
+    johnson_params = pl.read_csv(parameter_dir / 'johnson_2011_parameters.csv')
+    tsl_df = pl.read_csv(parameter_dir / 'tsl_comparison.csv')
+    _muscles = model.getMuscles()
+    for _i in range(_muscles.getSize()):
+        _muscle = _muscles.get(_i)
+        _muscle_name = _muscle.getName().replace('R_', '')
+        params = johnson_params.row(by_predicate=pl.col('Abbreviation') == _muscle_name, named=True)
+        if params is not None:
+            _muscle.setMaxIsometricForce(params['Fo (N)'])
+            _muscle.setOptimalFiberLength(params['l0 (mm)'] / 1000)
+            _muscle.setPennationAngleAtOptimalFiberLength(params['θ0 (deg)'] * np.pi / 180)
+        tsl_params = tsl_df.row(by_predicate=pl.col('Abbreviation') == _muscle_name, named=True)
+        if tsl_params is not None:
+            lts = tsl_params['Walk TSL (mm)'] / 1000
+            if lts <= 0:
+                _muscle.set_ignore_tendon_compliance(True)
+            _muscle.setTendonSlackLength(lts)
+    model_1 = update_model(model, unilateral_out)
+    no_muscles_model = osim.Model(str(unilateral_out))
+    no_muscles_model = remove_muscles(no_muscles_model)
+    _ = update_model(no_muscles_model, unilateral_no_muscles_out)
+    print(f'Wrote {unilateral_out}')
+    print(f'Wrote {unilateral_no_muscles_out}')
+    return
+
+
+if __name__ == "__main__":
+    app.run()

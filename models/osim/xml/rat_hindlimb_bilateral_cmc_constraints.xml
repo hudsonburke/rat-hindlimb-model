@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<OpenSimDocument Version="40600">
+<?xml version="1.0" encoding="UTF-8"?> <OpenSimDocument Version="40600">
     <ControlSet name="rat_hindlimb_bilateral_CMC">
         <defaults>
             <ControlLinear name="default">
                 <!--Flag indicating whether or not this control should be used as a model control.-->
                 <is_model_control>true</is_model_control>
                 <!--Flag indicating whether or not to extrapolate for control curve evaluations.-->
-                <extrapolate>true</extrapolate>
+                <extrapolate>false</extrapolate>
                 <!--Default minimum value (for muscles: 0.02 to allow for minimum activation)-->
                 <default_min>0.02</default_min>
                 <!--Default maximum value (for muscles: 1.0 for maximum activation)-->
@@ -16,6 +15,93 @@
             </ControlLinear>
         </defaults>
         <objects>
+            <ControlLinear name="sacrum_pitch.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="sacrum_roll.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="sacrum_yaw.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            
+            <ControlLinear name="sacrum_x.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="sacrum_y.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="sacrum_z.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
+            <ControlLinear name="hip_r_flx.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="hip_r_add.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="hip_r_int.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
+            <ControlLinear name="hip_l_flx.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="hip_l_add.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="hip_l_int.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
+            <ControlLinear name="knee_r_flx.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="knee_l_flx.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
+
+            <ControlLinear name="ankle_r_flx.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="ankle_l_flx.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
             <!-- Right leg muscles -->
             <ControlLinear name="R_BFa.excitation" />
             <ControlLinear name="R_BFp.excitation" />
@@ -95,6 +181,7 @@
             <ControlLinear name="L_FHL.excitation" />
             <ControlLinear name="L_Per.excitation" />
             <ControlLinear name="L_Pop.excitation" />
+
         </objects>
         <groups />
     </ControlSet>
