@@ -1,0 +1,19 @@
+[project]
+name = "rathindlimb"
+version = "0.1.0"
+description = "Rat hindlimb musculoskeletal model utilities"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy",
+    "osimpy",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["rathindlimb"]
+
+[tool.setuptools.package-dir]
+rathindlimb = "utilities"

@@ -7,147 +7,147 @@
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_pitch</coordinate>
-			<optimal_force>1.5</optimal_force>
+			<optimal_force>1</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="sacrum_roll_reserve">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_roll</coordinate>
-			<optimal_force>1.5</optimal_force>
+			<optimal_force>1</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="sacrum_yaw_reserve">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_yaw</coordinate>
-			<optimal_force>1.5</optimal_force>
+			<optimal_force>1</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="sacrum_x_reserve">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_x</coordinate>
-			<optimal_force>10.0</optimal_force>
+			<optimal_force>1</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="sacrum_y_reserve">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_y</coordinate>
-			<optimal_force>10.0</optimal_force>
+			<optimal_force>1</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="sacrum_z_reserve">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_z</coordinate>
-			<optimal_force>10.0</optimal_force>
+			<optimal_force>1</optimal_force>
 		</CoordinateActuator>
 
 		<!-- Sacroiliac (locked but need reserves for completeness) -->
 		<!-- <CoordinateActuator name="sacroiliac_r_flx_reserve"> -->
-		<!-- 	<min_control>-Inf</min_control> -->
-		<!-- 	<max_control>Inf</max_control> -->
+		<!-- 	<min_control>-1</min_control> -->
+		<!-- 	<max_control>1</max_control> -->
 		<!-- 	<coordinate>sacroiliac_r_flx</coordinate> -->
-		<!-- 	<optimal_force>0.1</optimal_force> -->
+		<!-- 	<optimal_force>1000</optimal_force> -->
 		<!-- </CoordinateActuator> -->
 		<!-- <CoordinateActuator name="sacroiliac_l_flx_reserve"> -->
-		<!-- 	<min_control>-Inf</min_control> -->
-		<!-- 	<max_control>Inf</max_control> -->
+		<!-- 	<min_control>-1</min_control> -->
+		<!-- 	<max_control>1</max_control> -->
 		<!-- 	<coordinate>sacroiliac_l_flx</coordinate> -->
-		<!-- 	<optimal_force>0.1</optimal_force> -->
+		<!-- 	<optimal_force>1000</optimal_force> -->
 		<!-- </CoordinateActuator> -->
 
 		<!-- Right hip (3 DOF) -->
 		<CoordinateActuator name="hip_r_flx_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>hip_r_flx</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="hip_r_add_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>hip_r_add</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="hip_r_int_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>hip_r_int</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 
 		<!-- Right knee (1 DOF) -->
 		<CoordinateActuator name="knee_r_flx_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>knee_r_flx</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 
 		<!-- Right ankle (3 DOF — flx active, add+int locked) -->
 		<CoordinateActuator name="ankle_r_flx_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>ankle_r_flx</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 		<!-- <CoordinateActuator name="ankle_r_add_reserve"> -->
-		<!-- 	<min_control>-Inf</min_control> -->
-		<!-- 	<max_control>Inf</max_control> -->
+		<!-- 	<min_control>-1</min_control> -->
+		<!-- 	<max_control>1</max_control> -->
 		<!-- 	<coordinate>ankle_r_add</coordinate> -->
-		<!-- 	<optimal_force>0.1</optimal_force> -->
+		<!-- 	<optimal_force>1000</optimal_force> -->
 		<!-- </CoordinateActuator> -->
 		<!-- <CoordinateActuator name="ankle_r_int_reserve"> -->
-		<!-- 	<min_control>-Inf</min_control> -->
-		<!-- 	<max_control>Inf</max_control> -->
+		<!-- 	<min_control>-1</min_control> -->
+		<!-- 	<max_control>1</max_control> -->
 		<!-- 	<coordinate>ankle_r_int</coordinate> -->
-		<!-- 	<optimal_force>0.1</optimal_force> -->
+		<!-- 	<optimal_force>1000</optimal_force> -->
 		<!-- </CoordinateActuator> -->
 
 		<!-- Left hip (3 DOF) -->
 		<CoordinateActuator name="hip_l_flx_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>hip_l_flx</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="hip_l_add_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>hip_l_add</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 		<CoordinateActuator name="hip_l_int_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>hip_l_int</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 
 		<!-- Left knee (1 DOF) -->
 		<CoordinateActuator name="knee_l_flx_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>knee_l_flx</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 
 		<!-- Left ankle (3 DOF — flx active, add+int locked) -->
 		<CoordinateActuator name="ankle_l_flx_reserve">
-			<min_control>-Inf</min_control>
-			<max_control>Inf</max_control>
+			<min_control>-1</min_control>
+			<max_control>1</max_control>
 			<coordinate>ankle_l_flx</coordinate>
-			<optimal_force>0.1</optimal_force>
+			<optimal_force>1000</optimal_force>
 		</CoordinateActuator>
 		<!-- <CoordinateActuator name="ankle_l_add_reserve"> -->
-		<!-- 	<min_control>-Inf</min_control> -->
-		<!-- 	<max_control>Inf</max_control> -->
+		<!-- 	<min_control>-1</min_control> -->
+		<!-- 	<max_control>1</max_control> -->
 		<!-- 	<coordinate>ankle_l_add</coordinate> -->
-		<!-- 	<optimal_force>0.1</optimal_force> -->
+		<!-- 	<optimal_force>1000</optimal_force> -->
 		<!-- </CoordinateActuator> -->
 		<!-- <CoordinateActuator name="ankle_l_int_reserve"> -->
-		<!-- 	<min_control>-Inf</min_control> -->
-		<!-- 	<max_control>Inf</max_control> -->
+		<!-- 	<min_control>-1</min_control> -->
+		<!-- 	<max_control>1</max_control> -->
 		<!-- 	<coordinate>ankle_l_int</coordinate> -->
-		<!-- 	<optimal_force>0.1</optimal_force> -->
+		<!-- 	<optimal_force>1000</optimal_force> -->
 		<!-- </CoordinateActuator> -->
 		</objects>
 		<groups />

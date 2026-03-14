@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSimDocument Version="40600">
+    <ControlSet name="rat_hindlimb_bilateral_rra">
+        <defaults>
+            <ControlLinear name="default">
+                <!--Flag indicating whether or not this control should be used as a model control.-->
+                <is_model_control>true</is_model_control>
+                <!--Flag indicating whether or not to extrapolate for control curve evaluations.-->
+                <extrapolate>true</extrapolate>
+                <!--Default minimum value (for muscles: 0.02 to allow for minimum activation)-->
+                <default_min>-1</default_min>
+                <!--Default maximum value (for muscles: 1.0 for maximum activation)-->
+                <default_max>1</default_max>
+                <!--Use steps for muscle excitations (recommended for CMC)-->
+                <use_steps>false</use_steps>
+            </ControlLinear>
+        </defaults>
+        <objects>
+            <ControlLinear name="sacrum_pitch.excitation" />
+            <ControlLinear name="sacrum_roll.excitation" />
+            <ControlLinear name="sacrum_yaw.excitation" />
+
+            <ControlLinear name="sacrum_x.excitation" />
+            <ControlLinear name="sacrum_y.excitation" />
+            <ControlLinear name="sacrum_z.excitation" />
+
+            <ControlLinear name="hip_r_flx.excitation" />
+            <ControlLinear name="hip_r_add.excitation" />
+            <ControlLinear name="hip_r_int.excitation" />
+
+            <ControlLinear name="hip_l_flx.excitation" />
+            <ControlLinear name="hip_l_add.excitation" />
+            <ControlLinear name="hip_l_int.excitation" />
+
+            <ControlLinear name="knee_r_flx.excitation" />
+            <ControlLinear name="knee_l_flx.excitation" />
+
+            <ControlLinear name="ankle_r_flx.excitation" />
+            <ControlLinear name="ankle_l_flx.excitation" />
+        </objects>
+        <groups />
+    </ControlSet>
+</OpenSimDocument>

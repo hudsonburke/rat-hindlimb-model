@@ -199,7 +199,7 @@ def scale_opensim_model(
     Create scaled OpenSim model from a static rat trial.
     """
 
-    output_path = Path(output_dir)
+    output_path = Path(output_dir).resolve()
     output_path.mkdir(parents=True, exist_ok=True)
 
     if scaled_model_name is None:
@@ -214,13 +214,13 @@ def scale_opensim_model(
 
     scale_settings = ScaleSettings(
         name=name,
-        setup_file=generic_setup_path,
-        model_file=unscaled_model_path,
+        setup_path=generic_setup_path,
+        model_path=unscaled_model_path,
         results_directory=output_path,
-        marker_set_path=str(marker_set_path),
-        marker_file=str(Path(trc_file_name).resolve()),
-        output_model_file=str(scaled_model_path),
-        output_scale_file=str(scale_factors_path),
+        marker_set_path=marker_set_path,
+        marker_path=Path(trc_file_name).resolve(),
+        output_model_file=scaled_model_name,
+        output_scale_file=scale_factors_name,
         scale_factors=_manual_scale_factors(parameters),
         preserve_mass_distribution=False,
         subject_mass=parameters["Mass"],
