@@ -3,37 +3,37 @@
 	<ForceSet>
 		<objects>
 		<!-- Sacrum 6-DOF (residuals) -->
-		<CoordinateActuator name="sacrum_pitch_reserve">
+		<CoordinateActuator name="sacrum_pitch_residual">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_pitch</coordinate>
 			<optimal_force>1.5</optimal_force>
 		</CoordinateActuator>
-		<CoordinateActuator name="sacrum_roll_reserve">
+		<CoordinateActuator name="sacrum_roll_residual">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_roll</coordinate>
 			<optimal_force>1.5</optimal_force>
 		</CoordinateActuator>
-		<CoordinateActuator name="sacrum_yaw_reserve">
+		<CoordinateActuator name="sacrum_yaw_residual">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_yaw</coordinate>
 			<optimal_force>1.5</optimal_force>
 		</CoordinateActuator>
-		<CoordinateActuator name="sacrum_x_reserve">
+		<CoordinateActuator name="sacrum_x_residual">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_x</coordinate>
 			<optimal_force>10.0</optimal_force>
 		</CoordinateActuator>
-		<CoordinateActuator name="sacrum_y_reserve">
+		<CoordinateActuator name="sacrum_y_residual">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_y</coordinate>
 			<optimal_force>10.0</optimal_force>
 		</CoordinateActuator>
-		<CoordinateActuator name="sacrum_z_reserve">
+		<CoordinateActuator name="sacrum_z_residual">
 			<min_control>-Inf</min_control>
 			<max_control>Inf</max_control>
 			<coordinate>sacrum_z</coordinate>

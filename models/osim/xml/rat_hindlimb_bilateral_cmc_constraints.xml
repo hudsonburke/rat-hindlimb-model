@@ -15,88 +15,88 @@
             </ControlLinear>
         </defaults>
         <objects>
-            <ControlLinear name="sacrum_pitch.excitation">
+            <ControlLinear name="sacrum_pitch_residual.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="sacrum_roll.excitation">
+            <ControlLinear name="sacrum_roll_residual.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="sacrum_yaw.excitation">
+            <ControlLinear name="sacrum_yaw_residual.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
             
-            <ControlLinear name="sacrum_x.excitation">
+            <ControlLinear name="sacrum_x_residual.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="sacrum_y.excitation">
+            <ControlLinear name="sacrum_y_residual.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="sacrum_z.excitation">
-                <default_min>-1000</default_min>
-                <default_max>1000</default_max>
-                <use_steps>false</use_steps>
-            </ControlLinear>
-
-            <ControlLinear name="hip_r_flx.excitation">
-                <default_min>-1000</default_min>
-                <default_max>1000</default_max>
-                <use_steps>false</use_steps>
-            </ControlLinear>
-            <ControlLinear name="hip_r_add.excitation" >
-                <default_min>-1000</default_min>
-                <default_max>1000</default_max>
-                <use_steps>false</use_steps>
-            </ControlLinear>
-            <ControlLinear name="hip_r_int.excitation" >
+            <ControlLinear name="sacrum_z_residual.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
 
-            <ControlLinear name="hip_l_flx.excitation" >
+            <ControlLinear name="hip_r_flx_reserve.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="hip_l_add.excitation" >
+            <ControlLinear name="hip_r_add_reserve.excitation" >
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="hip_l_int.excitation" >
-                <default_min>-1000</default_min>
-                <default_max>1000</default_max>
-                <use_steps>false</use_steps>
-            </ControlLinear>
-
-            <ControlLinear name="knee_r_flx.excitation" >
-                <default_min>-1000</default_min>
-                <default_max>1000</default_max>
-                <use_steps>false</use_steps>
-            </ControlLinear>
-            <ControlLinear name="knee_l_flx.excitation" >
+            <ControlLinear name="hip_r_int_reserve.excitation" >
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
 
-
-            <ControlLinear name="ankle_r_flx.excitation">
+            <ControlLinear name="hip_l_flx_reserve.excitation" >
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
             </ControlLinear>
-            <ControlLinear name="ankle_l_flx.excitation">
+            <ControlLinear name="hip_l_add_reserve.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="hip_l_int_reserve.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
+            <ControlLinear name="knee_r_flx_reserve.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="knee_l_flx_reserve.excitation" >
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+
+
+            <ControlLinear name="ankle_r_flx_reserve.excitation">
+                <default_min>-1000</default_min>
+                <default_max>1000</default_max>
+                <use_steps>false</use_steps>
+            </ControlLinear>
+            <ControlLinear name="ankle_l_flx_reserve.excitation">
                 <default_min>-1000</default_min>
                 <default_max>1000</default_max>
                 <use_steps>false</use_steps>
