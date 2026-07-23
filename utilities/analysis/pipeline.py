@@ -48,6 +48,7 @@ from .events import (
     check_marker_gaps,
 )
 from .forces import process_force_plate, zero_outside_gait_cycle, write_external_loads_xml
+from .io import c3d_to_trc, c3d_to_fp_mot
 
 
 # ---------------------------------------------------------------------------
@@ -431,16 +432,18 @@ def run_subject(
                 trc_path = trial_out / f"{trial_name}.trc"
                 if not trc_path.exists() and not skip_ik:
                     logger.info(f"  Exporting TRC for {trial_name}")
-                    # TODO: implement TRC export from C3D using ezc3d
-                    # This would call: c3d_to_trc(trial_info["c3d"], trc_path,
-                    #     cutoff=15.0, rotation=VICON_TO_OPENSIM)
+                    c3d_to_trc(trial_info["c3d"], trial_out,
+                               cutoff=15.0, output_name=f"{trial_name}.trc")
 
                 # Export FP and external loads
                 ext_loads_path = trial_out / f"{trial_name}_ext_loads.xml"
                 if not ext_loads_path.exists() and not skip_id:
                     logger.info(f"  Exporting force plate data for {trial_name}")
-                    # TODO: implement FP export from C3D using ezc3d
-                    # This would call: c3d_to_fp_mot(trial_info["c3d"], trial_out)
+                    c3d_to_fp_mot(
+                        trial_info["c3d"], trial_out,
+                        events=trial_info["events"],
+                        output_prefix=trial_name,
+                    )
 
                 # Run IK
                 if not skip_ik:

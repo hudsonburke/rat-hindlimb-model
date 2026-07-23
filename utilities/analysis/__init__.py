@@ -6,6 +6,7 @@ Muscle Control, and result plotting.
 
 Modules
 -------
+io         : C3D→TRC and C3D→FP MOT export (Vicon→OpenSim transform, filtering)
 events     : Trial validation, gait event handling, marker gap detection
 forces     : Force plate processing (Vicon→OpenSim transform, filtering, MOT export)
 pipeline   : End-to-end analysis pipeline (scale, IK, ID, spline, group aggregation)
