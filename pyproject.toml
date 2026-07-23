@@ -28,8 +28,9 @@ tsl-optimization = { git = "https://github.com/hudsonburke/tsl-optimization.git"
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-packages = ["rathindlimb"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rathindlimb", "rathindlimb.*"]
 
 [tool.setuptools.package-dir]
 rathindlimb = "utilities"
