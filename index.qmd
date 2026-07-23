@@ -11,13 +11,15 @@ execute:
 
 ## Notebook-first workflow
 
-All model-edit steps are maintained in staged notebooks and should be run directly in Jupyter in this order:
+All model-edit steps are maintained as Python scripts and should be run in order:
 
-1. [notebooks/pipeline/01_non_muscle_edits.ipynb](notebooks/pipeline/01_non_muscle_edits.ipynb)
-2. [notebooks/pipeline/02_muscle_edits.ipynb](notebooks/pipeline/02_muscle_edits.ipynb)
-3. [notebooks/pipeline/03_mirroring.ipynb](notebooks/pipeline/03_mirroring.ipynb)
+```sh
+make 01   # Non-muscle edits
+make 02   # Muscle edits
+make 03   # Bilateral mirroring
+```
 
-These notebooks generate the final files:
+These scripts generate the final files:
 
 - models/osim/
   - rat_hindlimb_unilateral.osim

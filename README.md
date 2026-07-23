@@ -31,11 +31,25 @@ Render with Quarto (narrative only):
 quarto render index.qmd
 ```
 
-Run model edits in staged notebooks:
+Run the model pipeline end-to-end:
 
-- `notebooks/pipeline/01_non_muscle_edits.ipynb`
-- `notebooks/pipeline/02_muscle_edits.ipynb`
-- `notebooks/pipeline/03_mirroring.ipynb`
+``` shell
+make      # Runs steps 01 → 02 → 03 in order
+```
+
+Or run individual steps:
+
+``` shell
+make 01   # Non-muscle edits (naming, knee joint, coordinate locks)
+make 02   # Muscle edits (Millard conversion, via-point paths, parameters)
+make 03   # Bilateral mirroring
+```
+
+Recompute tendon slack lengths from motion data:
+
+``` shell
+make tsl  # Executes notebooks/tsl_optimization.ipynb
+```
 
 Final published models are written to:
 
@@ -54,18 +68,19 @@ See HuggingFace repository hudsonburke/rat-hindlimb-mocap
 
 ### TODO
 
-- [ ] Switch from package structure to more script-based structure for model edit
+- [x] Switch from package structure to more script-based structure for model edit
 - [ ] Separate out muscle specific edits
-- [ ] Move computational things in index.qmd to isolated notebooks
-  - This is now compatible with branch-aware artifact saving and Quarto caching
+- [x] Move computational things in index.qmd to isolated scripts
 - [x] Package install instructions and change src.* to rathindlimb.*
   - Package uses utilities/ directory via package-dir mapping
-- [x] Add osimpy as uv source dependency
+- [x] Add osimpy and tsl-optimization as uv source dependencies
 - [ ] Formalize muscle analysis functions
 - [ ] Create tests for model validation
 - [x] Clean up intermediate model edits
 - [x] Migrate from conda to uv for dependency management
 - [ ] Organize script usage into Makefile
+- [x] Add Makefile for pipeline orchestration
+- [x] Consolidate pipeline to single format (scripts, not triplicate notebooks+qmd+py)
 
 ## References and Acknowledgements
 

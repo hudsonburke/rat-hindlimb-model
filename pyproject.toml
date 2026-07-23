@@ -7,8 +7,9 @@ requires-python = ">=3.12"
 dependencies = [
     "numpy",
     "opensim>=4.6",
-    "osimpy",
     "open3d",
+    "osimpy",
+    "tsl-optimization",
 ]
 
 [project.optional-dependencies]
@@ -21,6 +22,7 @@ dev = [
 
 [tool.uv.sources]
 osimpy = { git = "https://github.com/hudsonburke/osimpy.git" }
+tsl-optimization = { git = "https://github.com/hudsonburke/tsl-optimization.git" }
 
 [build-system]
 requires = ["setuptools>=68"]

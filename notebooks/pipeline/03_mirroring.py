@@ -1,198 +1,208 @@
-import marimo
+# %% [markdown]
+"""
+# 03 Mirroring (bilateral outputs)
 
-__generated_with = "0.20.4"
-app = marimo.App()
+Run this after `02_muscle_edits.py`. It mirrors the unilateral model
+across the sagittal plane to produce a bilateral model with left-side
+anatomy, joints, and muscles.
+"""
 
+# %% Imports
+import opensim as osim
+import sys
+from pathlib import Path
 
-@app.cell
-def _():
-    import marimo as mo
+# %% Setup paths
+project_root = Path.cwd().resolve()
+if project_root.name == "pipeline":
+    project_root = project_root.parent.parent
+elif project_root.name == "notebooks":
+    project_root = project_root.parent
 
-    return (mo,)
+src_dir = project_root / "src"
+if str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
 
+from rathindlimb.processing import update_model, remove_muscles
 
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    # 03 Mirroring (bilateral outputs)
+model_dir = project_root / "models" / "osim"
+pipeline_dir = model_dir / ".pipeline"
+pipeline_dir.mkdir(parents=True, exist_ok=True)
 
-    Run this after `02_muscle_edits.ipynb`. It mirrors the unilateral model and writes final bilateral outputs.
-    """)
-    return
+unilateral_file = model_dir / "rat_hindlimb_unilateral.osim"
+bilateral_out = model_dir / "rat_hindlimb_bilateral.osim"
+bilateral_no_muscles_out = model_dir / "rat_hindlimb_bilateral_no_muscles.osim"
 
+model = osim.Model(str(unilateral_file))
 
-@app.cell
-def _():
-    import opensim as osim
-    from pathlib import Path
-    import sys
+# %% Mirror body segments
+# Clone each body, rename _r -> _l, negate Z for geometry, CoM, and inertia
+body_set = model.getBodySet()
+cloned_bodies = {}
+for _i in range(body_set.getSize()):
+    body = body_set.get(_i)
+    body_name = body.getName()
+    _new_body_name = body_name
+    if body_name != "spine":
+        new_body = body.clone()
+        _new_body_name = body_name.replace("_r", "_l")
+        new_body.setName(_new_body_name)
 
-    project_root = Path.cwd().resolve()
-    if project_root.name == 'pipeline':
-        project_root = project_root.parent.parent
-    elif project_root.name == 'notebooks':
-        project_root = project_root.parent
+        # Mirror geometry across sagittal (XY) plane
+        geom = new_body.get_attached_geometry(0)
+        geom.setName(geom.getName().replace("_r", "_l"))
+        geom.set_scale_factors(osim.Vec3(1, 1, -1))
 
-    src_dir = project_root / 'src'
-    if str(src_dir) not in sys.path:
-        sys.path.insert(0, str(src_dir))
+        # Mirror center of mass
+        com = new_body.getMassCenter()
+        new_body.setMassCenter(osim.Vec3(com.get(0), com.get(1), -com.get(2)))
 
-    from rathindlimb.processing import update_model, remove_muscles
+        # Mirror inertia (negate products crossing the mirror plane)
+        moi = new_body.getInertia()
+        moments = moi.getMoments()
+        products = moi.getProducts()
+        new_body.setInertia(
+            osim.Inertia(
+                moments.get(0),
+                moments.get(1),
+                moments.get(2),
+                products.get(0),
+                -products.get(1),
+                -products.get(2),
+            )
+        )
+        model.addBody(new_body)
+    cloned_bodies[body_name] = _new_body_name
 
-    model_dir = project_root / 'models' / 'osim'
-    pipeline_dir = model_dir / '.pipeline'
-    pipeline_dir.mkdir(parents=True, exist_ok=True)
+print(f"Mirrored {len(cloned_bodies) - 1} body segments")
 
-    unilateral_file = model_dir / 'rat_hindlimb_unilateral.osim'
-    bilateral_out = model_dir / 'rat_hindlimb_bilateral.osim'
-    bilateral_no_muscles_out = model_dir / 'rat_hindlimb_bilateral_no_muscles.osim'
+# %% Mirror joints
+# Clone the joint set, rename bodies and joints via XML text replacement,
+# then append mirrored joints to the model
+left_joint_set = model.getJointSet().clone()
+left_joint_set.remove(left_joint_set.get("ground_spine"))
+left_joint_set_file = pipeline_dir / "left_joint_set.xml"
+left_joint_set.printToXML(str(left_joint_set_file))
 
-    model = osim.Model(str(unilateral_file))
-    return (
-        bilateral_no_muscles_out,
-        bilateral_out,
-        model,
-        model_dir,
-        osim,
-        pipeline_dir,
-        remove_muscles,
-        update_model,
+with open(left_joint_set_file, "r") as _file:
+    joint_set_content = _file.read()
+
+for _old_body_name, _new_body_name in cloned_bodies.items():
+    joint_set_content = joint_set_content.replace(_old_body_name, _new_body_name)
+
+new_joint_names = []
+for _i in range(left_joint_set.getSize()):
+    _joint_name = left_joint_set.get(_i).getName()
+    new_joint_name = _joint_name.replace("_r", "_l")
+    joint_set_content = joint_set_content.replace(_joint_name, new_joint_name)
+    new_joint_names.append(new_joint_name)
+
+with open(left_joint_set_file, "w") as _file:
+    _file.write(joint_set_content)
+
+left_joint_set = osim.JointSet(str(left_joint_set_file))
+for _i in range(left_joint_set.getSize()):
+    model.getJointSet().cloneAndAppend(left_joint_set.get(_i))
+
+print(f"Mirrored {len(new_joint_names)} joints")
+
+# %% Mirror joint frame offsets and spatial transform functions
+# Negate Z translation for parent/child frames
+# Negate the appropriate coordinate/spline functions
+model.initSystem()
+for _joint_name in new_joint_names:
+    joint = osim.CustomJoint.safeDownCast(model.getJointSet().get(_joint_name))
+    if joint is None:
+        continue
+
+    parent_offset = osim.PhysicalOffsetFrame.safeDownCast(joint.getParentFrame())
+    child_offset = osim.PhysicalOffsetFrame.safeDownCast(joint.getChildFrame())
+    parent_pos = parent_offset.get_translation()
+    child_pos = child_offset.get_translation()
+    parent_offset.set_translation(
+        osim.Vec3(parent_pos.get(0), parent_pos.get(1), -parent_pos.get(2))
+    )
+    child_offset.set_translation(
+        osim.Vec3(child_pos.get(0), child_pos.get(1), -child_pos.get(2))
     )
 
-
-@app.cell
-def _(model, osim, pipeline_dir):
-    body_set = model.getBodySet()
-    cloned_bodies = {}
-    for _i in range(body_set.getSize()):
-        body = body_set.get(_i)
-        body_name = body.getName()
-        _new_body_name = body_name
-        if body_name != 'spine':
-            new_body = body.clone()
-            _new_body_name = body_name.replace('_r', '_l')
-            new_body.setName(_new_body_name)
-            geom = new_body.get_attached_geometry(0)
-            geom.setName(geom.getName().replace('_r', '_l'))
-            geom.set_scale_factors(osim.Vec3(1, 1, -1))
-            com = new_body.getMassCenter()
-            new_body.setMassCenter(osim.Vec3(com.get(0), com.get(1), -com.get(2)))
-            moi = new_body.getInertia()
-            moments = moi.getMoments()
-            products = moi.getProducts()
-            new_body.setInertia(osim.Inertia(moments.get(0), moments.get(1), moments.get(2), products.get(0), -products.get(1), -products.get(2)))
-            model.addBody(new_body)
-        cloned_bodies[body_name] = _new_body_name
-    left_joint_set = model.getJointSet().clone()
-    left_joint_set.remove(left_joint_set.get('ground_spine'))
-    left_joint_set_file = pipeline_dir / 'left_joint_set.xml'
-    left_joint_set.printToXML(str(left_joint_set_file))
-    with open(left_joint_set_file, 'r') as _file:
-        joint_set_content = _file.read()
-    for _old_body_name, _new_body_name in cloned_bodies.items():
-        joint_set_content = joint_set_content.replace(_old_body_name, _new_body_name)
-    new_joint_names = []
-    for _i in range(left_joint_set.getSize()):
-        _joint_name = left_joint_set.get(_i).getName()
-        new_joint_name = _joint_name.replace('_r', '_l')
-        joint_set_content = joint_set_content.replace(_joint_name, new_joint_name)
-        new_joint_names.append(new_joint_name)
-    with open(left_joint_set_file, 'w') as _file:
-        _file.write(joint_set_content)
-    left_joint_set = osim.JointSet(str(left_joint_set_file))
-    for _i in range(left_joint_set.getSize()):
-        model.getJointSet().cloneAndAppend(left_joint_set.get(_i))
-    return cloned_bodies, new_joint_names
-
-
-@app.cell
-def _(model, new_joint_names, osim):
-    model.initSystem()
-    for _joint_name in new_joint_names:
-        joint = osim.CustomJoint.safeDownCast(model.getJointSet().get(_joint_name))
-        if joint is None:
+    # Negate spatial transform functions by type
+    spatial_transform = joint.get_SpatialTransform()
+    transform_axes = spatial_transform.getAxes()
+    for axis_index, vec in enumerate(transform_axes):
+        if axis_index <= 2 and vec[2]:
             continue
-        parent_offset = osim.PhysicalOffsetFrame.safeDownCast(joint.getParentFrame())
-        child_offset = osim.PhysicalOffsetFrame.safeDownCast(joint.getChildFrame())
-        parent_pos = parent_offset.get_translation()
-        child_pos = child_offset.get_translation()
-        parent_offset.set_translation(osim.Vec3(parent_pos.get(0), parent_pos.get(1), -parent_pos.get(2)))
-        child_offset.set_translation(osim.Vec3(child_pos.get(0), child_pos.get(1), -child_pos.get(2)))
-        spatial_transform = joint.get_SpatialTransform()
-        transform_axes = spatial_transform.getAxes()
-        for axis_index, vec in enumerate(transform_axes):
-            if axis_index <= 2 and vec[2]:
-                continue
-            if axis_index > 2 and (not vec[2]):
-                continue
-            getter = 'get_rotation' + str(axis_index + 1) if axis_index < 3 else 'get_translation' + str(axis_index - 2)
-            transform_axis = getattr(spatial_transform, getter)()
-            axis_function = transform_axis.getFunction()
-            concrete_class = axis_function.getConcreteClassName()
-            if concrete_class == 'SimmSpline':
-                simm_spline = osim.SimmSpline.safeDownCast(axis_function)
-                for k in range(simm_spline.getSize()):
-                    simm_spline.setY(k, -simm_spline.getY(k))
-            elif concrete_class == 'LinearFunction':
-                linear_func = osim.LinearFunction.safeDownCast(axis_function)
-                linear_func.setSlope(-linear_func.getSlope())
-                linear_func.setIntercept(-linear_func.getIntercept())
-            elif concrete_class == 'Constant':
-                constant_func = osim.Constant.safeDownCast(axis_function)
-                constant_func.setValue(-constant_func.getValue())
-            elif concrete_class == 'MultiplierFunction':
-                mult_func = osim.MultiplierFunction.safeDownCast(axis_function)
-                mult_func.setScale(-mult_func.getScale())
-    return
+        if axis_index > 2 and (not vec[2]):
+            continue
+        getter = (
+            "get_rotation" + str(axis_index + 1)
+            if axis_index < 3
+            else "get_translation" + str(axis_index - 2)
+        )
+        transform_axis = getattr(spatial_transform, getter)()
+        axis_function = transform_axis.getFunction()
+        concrete_class = axis_function.getConcreteClassName()
 
+        if concrete_class == "SimmSpline":
+            simm_spline = osim.SimmSpline.safeDownCast(axis_function)
+            for k in range(simm_spline.getSize()):
+                simm_spline.setY(k, -simm_spline.getY(k))
+        elif concrete_class == "LinearFunction":
+            linear_func = osim.LinearFunction.safeDownCast(axis_function)
+            linear_func.setSlope(-linear_func.getSlope())
+            linear_func.setIntercept(-linear_func.getIntercept())
+        elif concrete_class == "Constant":
+            constant_func = osim.Constant.safeDownCast(axis_function)
+            constant_func.setValue(-constant_func.getValue())
+        elif concrete_class == "MultiplierFunction":
+            mult_func = osim.MultiplierFunction.safeDownCast(axis_function)
+            mult_func.setScale(-mult_func.getScale())
 
-@app.cell
-def _(
-    bilateral_no_muscles_out,
-    bilateral_out,
-    cloned_bodies,
-    model,
-    model_dir,
-    osim,
-    pipeline_dir,
-    remove_muscles,
-    update_model,
-):
-    muscle_set = model.getForceSet()
-    left_muscle_set_file = pipeline_dir / 'left_muscle_set.xml'
-    muscle_set.printToXML(str(left_muscle_set_file))
-    with open(left_muscle_set_file, 'r') as _file:
-        muscle_set_content = _file.read()
-    for _old_body_name, _new_body_name in cloned_bodies.items():
-        muscle_set_content = muscle_set_content.replace(_old_body_name, _new_body_name)
-    new_muscle_names = []
-    for _i in range(muscle_set.getSize()):
-        muscle_name = muscle_set.get(_i).getName()
-        new_muscle_name = muscle_name.replace('R_', 'L_')
-        muscle_set_content = muscle_set_content.replace(muscle_name, new_muscle_name)
-        new_muscle_names.append(new_muscle_name)
-    with open(left_muscle_set_file, 'w') as _file:
-        _file.write(muscle_set_content)
-    left_muscle_set = osim.ForceSet(str(left_muscle_set_file))
-    for muscle_name in new_muscle_names:
-        muscle = osim.Muscle.safeDownCast(left_muscle_set.get(muscle_name))
-        path_points = muscle.getGeometryPath().getPathPointSet()
-        for _i in range(path_points.getSize()):
-            path_point = osim.PathPoint.safeDownCast(path_points.get(_i))
-            loc = path_point.get_location()
-            path_point.setLocation(osim.Vec3(loc.get(0), loc.get(1), -loc.get(2)))
-        muscle_set.append(muscle)
-    marker_set = osim.MarkerSet(str(model_dir / 'rat_hindlimb_bilateral_markerset.xml'))
-    model.getMarkerSet().clearAndDestroy()
-    model.updateMarkerSet(marker_set)
-    model_1 = update_model(model, bilateral_out)
-    bilateral_no_muscles = osim.Model(str(bilateral_out))
-    bilateral_no_muscles = remove_muscles(bilateral_no_muscles)
-    _ = update_model(bilateral_no_muscles, bilateral_no_muscles_out)
-    print(f'Wrote {bilateral_out}')
-    print(f'Wrote {bilateral_no_muscles_out}')
-    return
+# %% Mirror muscles
+# Clone the force set, rename R_ -> L_, negate Z for path point locations
+muscle_set = model.getForceSet()
+left_muscle_set_file = pipeline_dir / "left_muscle_set.xml"
+muscle_set.printToXML(str(left_muscle_set_file))
 
+with open(left_muscle_set_file, "r") as _file:
+    muscle_set_content = _file.read()
 
-if __name__ == "__main__":
-    app.run()
+for _old_body_name, _new_body_name in cloned_bodies.items():
+    muscle_set_content = muscle_set_content.replace(_old_body_name, _new_body_name)
+
+new_muscle_names = []
+for _i in range(muscle_set.getSize()):
+    muscle_name = muscle_set.get(_i).getName()
+    new_muscle_name = muscle_name.replace("R_", "L_")
+    muscle_set_content = muscle_set_content.replace(muscle_name, new_muscle_name)
+    new_muscle_names.append(new_muscle_name)
+
+with open(left_muscle_set_file, "w") as _file:
+    _file.write(muscle_set_content)
+
+left_muscle_set = osim.ForceSet(str(left_muscle_set_file))
+for muscle_name in new_muscle_names:
+    muscle = osim.Muscle.safeDownCast(left_muscle_set.get(muscle_name))
+    path_points = muscle.getGeometryPath().getPathPointSet()
+    for _i in range(path_points.getSize()):
+        path_point = osim.PathPoint.safeDownCast(path_points.get(_i))
+        loc = path_point.get_location()
+        path_point.setLocation(osim.Vec3(loc.get(0), loc.get(1), -loc.get(2)))
+    muscle_set.append(muscle)
+
+print(f"Mirrored {len(new_muscle_names)} muscles")
+
+# %% Apply bilateral marker set and save
+marker_set = osim.MarkerSet(
+    str(model_dir / "rat_hindlimb_bilateral_markerset.xml")
+)
+model.getMarkerSet().clearAndDestroy()
+model.updateMarkerSet(marker_set)
+
+model_1 = update_model(model, bilateral_out)
+
+bilateral_no_muscles = osim.Model(str(bilateral_out))
+bilateral_no_muscles = remove_muscles(bilateral_no_muscles)
+_ = update_model(bilateral_no_muscles, bilateral_no_muscles_out)
+print(f"Wrote {bilateral_out}")
+print(f"Wrote {bilateral_no_muscles_out}")
