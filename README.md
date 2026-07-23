@@ -6,42 +6,53 @@ This repository contains code and data to generate a bilateral musculoskeletal m
 
 ## Quickstart
 
-- Clone the repository with submodules
-- Create and activate the conda environment
+### Prerequisites
+
+- [git](https://git-scm.com/install/)
+- [uv](https://docs.astral.sh/uv/)
+- [Quarto](https://quarto.org/), if you want to render `index.qmd`
+
+`uv` manages the Python environment, locks the dependency graph, installs OpenSim from PyPI, and pulls `osimpy` plus `tsl-optimization` from the Git sources declared in `pyproject.toml`.
 
 ### Installation
 
-If not already installed, install:
-
-- [git](https://git-scm.com/install/)
-- [conda](https://www.anaconda.com/docs/getting-started/miniconda/install)
-  - Miniconda is sufficient, but any anaconda installation will work
-
 ```shell
-# Clone the repository and necessary submodules
-git clone --recurse-submodules 
+# Clone the repository
+git clone <this-repo-url>
+cd rat-hindlimb-model
 
-# Install dependencies
-conda env create -f environment.yml
-conda activate rathindlimb
-
-# Install the package
-python -m pip install -e .
+# Create the locked environment and install the package editable
+uv sync
 ```
+
+### Workflow structure
+
+- `utilities/`: reusable library code imported as `rathindlimb`
+- `notebooks/pipeline/*.py`: canonical editable marimo workflow for model edits
+- `notebooks/tsl_optimization.py`: canonical editable marimo workflow for tendon slack estimation
+- `notebooks/pipeline/*.qmd`: narrative/publish copies of the pipeline
+- `notebooks/pipeline/*.ipynb` and `notebooks/tsl_optimization.ipynb`: notebook exchange/render copies
+- `index.qmd`: narrative-only overview; it does not execute the pipeline during render
 
 ### Usage
 
-Render with Quarto (narrative only):
+Run the canonical model-edit pipeline in order:
 
-``` shell
+1. `uv run marimo edit notebooks/pipeline/01_non_muscle_edits.py`
+2. `uv run marimo edit notebooks/pipeline/02_muscle_edits.py`
+3. `uv run marimo edit notebooks/pipeline/03_mirroring.py`
+
+Estimate tendon slack length in marimo:
+
+- `uv run marimo edit notebooks/tsl_optimization.py`
+
+The generated `data/parameters/tsl_comparison.csv` keeps both `Full ROM TSL (mm)` and `Walk TSL (mm)`, but the model-edit pipeline uses `Walk TSL (mm)` for updates. The full-ROM column is retained as a diagnostic comparison because Cartesian combinations of joint limits can create physiologically unreachable poses and infeasible no-buckling solves.
+
+Render the narrative document:
+
+```shell
 quarto render index.qmd
 ```
-
-Run model edits in staged notebooks:
-
-- `notebooks/pipeline/01_non_muscle_edits.ipynb`
-- `notebooks/pipeline/02_muscle_edits.ipynb`
-- `notebooks/pipeline/03_mirroring.ipynb`
 
 Final published models are written to:
 
@@ -58,24 +69,18 @@ See HuggingFace repository hudsonburke/rat-hindlimb-mocap
 
 ### Repo Structure
 
+This repo works best when reusable logic stays in `rathindlimb` and notebooks remain thin orchestration layers:
+
+- reusable code in `utilities/`
+- canonical pipeline notebooks in `notebooks/pipeline/*.py`
+- Quarto documents for narrative/reporting only
+- `.ipynb` copies as exchange artifacts, not the primary editing surface
+
 ### TODO
 
-- [ ] Switch from package structure to more script-based structure for model edit
-- [ ] Separate out muscle specific edits
-- [ ] Move computational things in index.qmd to isolated notebooks
-  - This is now compatible with branch-aware artifact saving and Quarto caching
-- [ ] Package install instructions and change src.\* to rathindlimb.\*
-  - Create setup script
-- [x] Add osimpy as submodule
-  - Eventually this should be a dependency
-- [ ] Formalize muscle analysis functions
-- [ ] Create tests for model validation
-- [x] Clean up intermediate model edits
-- [ ] Clean up conda environment.yml
-- [ ] Organize script usage into Makefile
-- [ ] Switch to uv for dependency management
-  - Currently waiting for opensim bindings to be easily available
-  - Pyopensim doesn't quite work
+- [ ] Add a generated exchange/export path for the tendon slack notebook copies
+- [ ] Separate muscle analysis and validation into testable library functions
+- [ ] Add model validation tests
 
 ## References and Acknowledgements
 

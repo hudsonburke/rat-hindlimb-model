@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <OpenSimDocument Version="40600">
 	<Model name="RatHindlimbRight">
+		<defaults>
+			<ControlLinear name="default">
+				<is_model_control>true</is_model_control>
+				<extrapolate>true</extrapolate>
+				<default_min>-1</default_min>
+				<default_max>1</default_max>
+				<filter_on>false</filter_on>
+				<use_steps>false</use_steps>
+				<x_nodes />
+				<min_nodes />
+				<max_nodes />
+				<kp>100</kp>
+				<kv>20</kv>
+			</ControlLinear>
+			<Thelen2003Muscle name="default">
+				<!--The path of the actuator which defines length and lengthening speed.-->
+				<GeometryPath name="path">
+					<!--Default appearance attributes for this AbstractGeometryPath.-->
+					<Appearance>
+						<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+						<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+					</Appearance>
+					<!--The set of points defining the path-->
+					<PathPointSet>
+						<objects />
+						<groups />
+					</PathPointSet>
+					<!--The wrap objects that are associated with this path-->
+					<PathWrapSet>
+						<objects />
+						<groups />
+					</PathWrapSet>
+				</GeometryPath>
+				<!--Maximum isometric force that the fibers can generate-->
+				<max_isometric_force>1000</max_isometric_force>
+				<!--Optimal length of the muscle fibers-->
+				<optimal_fiber_length>0.10000000000000001</optimal_fiber_length>
+				<!--Resting length of the tendon-->
+				<tendon_slack_length>0.20000000000000001</tendon_slack_length>
+				<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
+				<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
+				<!--tendon strain at maximum isometric muscle force-->
+				<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
+				<!--passive muscle strain at maximum isometric muscle force-->
+				<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
+				<!--shape factor for Gaussian active muscle force-length relationship-->
+				<KshapeActive>0.5</KshapeActive>
+				<!--exponential shape factor for passive force-length relationship-->
+				<KshapePassive>4</KshapePassive>
+				<!--force-velocity shape factor-->
+				<Af>0.29999999999999999</Af>
+				<!--maximum normalized lengthening force-->
+				<Flen>1.8</Flen>
+				<!--Activation time constant, in seconds-->
+				<activation_time_constant>0.01</activation_time_constant>
+				<!--Deactivation time constant, in seconds-->
+				<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
+			</Thelen2003Muscle>
+		</defaults>
 		<!--The model's ground reference frame.-->
 		<Ground name="ground">
 			<!--The geometry used to display the axes of this Frame.-->
@@ -41,7 +100,7 @@
 		<!--Publications and references associated with the model.-->
 		<publications>List of publications related to model...</publications>
 		<!--Units for all lengths.-->
-		<length_units>m</length_units>
+		<length_units>mm</length_units>
 		<!--Units for all forces.-->
 		<force_units>N</force_units>
 		<!--List of bodies that make up this model.-->
@@ -520,66 +579,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_pitch</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_roll</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_yaw</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_x</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_y</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_z</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
@@ -641,66 +704,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacroiliac_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
@@ -790,66 +857,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
@@ -911,69 +982,73 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0872665 -0.0750492 -0.0645772 -0.0523599 -0.0401426 -0.0296706 -0.0174533 -0.00523599 0.00523599 0.0174533 0.0296706 0.0401426 0.0523599 0.0645772</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0.261799</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.00523853 -0.00464648 -0.00404257 -0.00347254 -0.00297965 -0.00259079 -0.00229943 -0.00211001 -0.00199564 -0.00193207 -0.00187048 -0.00177935 -0.00163827 -0.0014134</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0341684 -0.0342539 -0.0341856 -0.0339723 -0.0336511 -0.0332785 -0.0328898 -0.0325504 -0.0322825 -0.0321161 -0.0320632 -0.0321105 -0.0322397 -0.0324144</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> 0.00260302 0.00280341 0.00285365 0.00290375 0.00289358 0.00277318 0.00270235 0.00261105 0.0024695 0.00241714 0.0024041 0.0023809 0.00249641 0.00269104</y>
@@ -1064,68 +1139,72 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
@@ -1188,66 +1267,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacroiliac_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
@@ -1337,66 +1420,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_l_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_l_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
@@ -1458,69 +1545,73 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> 0.0872665 0.0750492 0.0645772 0.0523599 0.0401426 0.0296706 0.0174533 0.00523599 -0.00523599 -0.0174533 -0.0296706 -0.0401426 -0.0523599 -0.0645772</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0.261799</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.00523853 -0.00464648 -0.00404257 -0.00347254 -0.00297965 -0.00259079 -0.00229943 -0.00211001 -0.00199564 -0.00193207 -0.00187048 -0.00177935 -0.00163827 -0.0014134</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0341684 -0.0342539 -0.0341856 -0.0339723 -0.0336511 -0.0332785 -0.0328898 -0.0325504 -0.0322825 -0.0321161 -0.0320632 -0.0321105 -0.0322397 -0.0324144</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.00260302 -0.00280341 -0.00285365 -0.00290375 -0.00289358 -0.00277318 -0.00270235 -0.00261105 -0.0024695 -0.00241714 -0.0024041 -0.0023809 -0.00249641 -0.00269104</y>
@@ -1611,68 +1702,72 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> -0 -0 -0 -0 -0 -0 -0 -0 -0 -0</y>
@@ -1748,7 +1843,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.039700000000000006</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0091343380947344743</tendon_slack_length>
+					<tendon_slack_length>0.0081373616378634314</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -1835,7 +1930,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.037600000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0074888626987970504</tendon_slack_length>
+					<tendon_slack_length>0.0060688391264141347</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.12217304763960307</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2102,7 +2197,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.034099999999999998</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.014196372940531034</tendon_slack_length>
+					<tendon_slack_length>0.012686181443878597</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2183,7 +2278,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.035700000000000003</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0065399713726981556</tendon_slack_length>
+					<tendon_slack_length>0.0055738645255040834</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2264,7 +2359,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.010999999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0042594269287689187</tendon_slack_length>
+					<tendon_slack_length>0.0037464016445267496</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.052359877559829883</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2345,7 +2440,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0206</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>7.7574410715160744e-06</tendon_slack_length>
+					<tendon_slack_length>0.00032913060590455099</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2507,7 +2602,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.019899999999999998</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0071090011857050774</tendon_slack_length>
+					<tendon_slack_length>0.0073763515265311283</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.20943951023931953</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2588,7 +2683,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.011800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.011667457053926342</tendon_slack_length>
+					<tendon_slack_length>0.011960726557968317</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.27925268031909273</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2669,7 +2764,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.010800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.003676916855528606</tendon_slack_length>
+					<tendon_slack_length>0.0038730904307916311</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.27925268031909273</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2750,7 +2845,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0293</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0075573842448833292</tendon_slack_length>
+					<tendon_slack_length>0.0061283557882373168</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.052359877559829883</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2831,7 +2926,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.030300000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0061584654741785013</tendon_slack_length>
+					<tendon_slack_length>0.0050443446308335244</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -2993,7 +3088,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.028399999999999998</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0076267370180647586</tendon_slack_length>
+					<tendon_slack_length>0.0067235242324236184</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3074,7 +3169,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.022800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0050739564457031906</tendon_slack_length>
+					<tendon_slack_length>0.0046177141846753681</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.20943951023931953</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3155,7 +3250,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0109</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.012675101265549625</tendon_slack_length>
+					<tendon_slack_length>0.012086848638153602</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.12217304763960307</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3317,7 +3412,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0060000000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0041272946353688791</tendon_slack_length>
+					<tendon_slack_length>0.0038442532387559301</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.27925268031909273</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3398,7 +3493,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0044999999999999997</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0081750259109584864</tendon_slack_length>
+					<tendon_slack_length>0.0079183121155964042</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.12217304763960307</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3479,7 +3574,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0060999999999999995</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.011323883209993418</tendon_slack_length>
+					<tendon_slack_length>0.011917538352158119</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.17453292519943295</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3560,7 +3655,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0042000000000000006</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0084941967341449244</tendon_slack_length>
+					<tendon_slack_length>0.0082268370260295664</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.31415926535897931</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3647,7 +3742,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.012199999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.026498998842359942</tendon_slack_length>
+					<tendon_slack_length>0.027068838451862344</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3740,7 +3835,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.019800000000000002</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.023133924278099353</tendon_slack_length>
+					<tendon_slack_length>0.023409682292243585</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.24434609527920614</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3833,7 +3928,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.011599999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.025464631879985256</tendon_slack_length>
+					<tendon_slack_length>0.025781590190194315</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.24434609527920614</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -3926,7 +4021,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.015599999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.026300845371624044</tendon_slack_length>
+					<tendon_slack_length>0.026587489697800237</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4025,7 +4120,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0146</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.03204348924041317</tendon_slack_length>
+					<tendon_slack_length>0.031765445209377581</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.22689280275926285</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4124,7 +4219,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.012500000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.032399954324621685</tendon_slack_length>
+					<tendon_slack_length>0.031988666893352315</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.15707963267948966</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4223,7 +4318,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.012500000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.03210003293327076</tendon_slack_length>
+					<tendon_slack_length>0.031625051612855969</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4316,7 +4411,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.016</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.023619753653661153</tendon_slack_length>
+					<tendon_slack_length>0.02338679490539242</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.069813170079773182</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4415,7 +4510,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0152</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.023809340723455346</tendon_slack_length>
+					<tendon_slack_length>0.024013678282393817</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.15707963267948966</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4514,7 +4609,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.013699999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.041253390992961617</tendon_slack_length>
+					<tendon_slack_length>0.041557077778798107</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.17453292519943295</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4613,7 +4708,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0054000000000000003</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.037026032598213722</tendon_slack_length>
+					<tendon_slack_length>0.036839516155816057</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.087266462599716474</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4718,7 +4813,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0089999999999999993</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.046688376273886466</tendon_slack_length>
+					<tendon_slack_length>0.046484252125497984</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4823,7 +4918,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.010800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.042480194758557965</tendon_slack_length>
+					<tendon_slack_length>0.042282923651310381</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.034906585039886591</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -4928,7 +5023,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0076</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.038337071726710137</tendon_slack_length>
+					<tendon_slack_length>0.038110386675767417</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.15707963267948966</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5021,7 +5116,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0064999999999999997</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.012050179149350613</tendon_slack_length>
+					<tendon_slack_length>0.011946572039679105</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.22689280275926285</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5114,7 +5209,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.039700000000000006</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0091343380947344743</tendon_slack_length>
+					<tendon_slack_length>0.0081373616378634314</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5201,7 +5296,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.037600000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0074888626987970504</tendon_slack_length>
+					<tendon_slack_length>0.0060688391264141347</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.12217304763960307</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5468,7 +5563,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.034099999999999998</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.014196372940531034</tendon_slack_length>
+					<tendon_slack_length>0.012686181443878597</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5549,7 +5644,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.035700000000000003</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0065399713726981556</tendon_slack_length>
+					<tendon_slack_length>0.0055738645255040834</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5630,7 +5725,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.010999999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0042594269287689187</tendon_slack_length>
+					<tendon_slack_length>0.0037464016445267496</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.052359877559829883</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5711,7 +5806,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0206</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>7.7574410715160744e-06</tendon_slack_length>
+					<tendon_slack_length>0.00032913060590455099</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5873,7 +5968,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.019899999999999998</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0071090011857050774</tendon_slack_length>
+					<tendon_slack_length>0.0073763515265311283</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.20943951023931953</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -5954,7 +6049,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.011800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.011667457053926342</tendon_slack_length>
+					<tendon_slack_length>0.011960726557968317</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.27925268031909273</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6035,7 +6130,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.010800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.003676916855528606</tendon_slack_length>
+					<tendon_slack_length>0.0038730904307916311</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.27925268031909273</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6116,7 +6211,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0293</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0075573842448833292</tendon_slack_length>
+					<tendon_slack_length>0.0061283557882373168</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.052359877559829883</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6197,7 +6292,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.030300000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0061584654741785013</tendon_slack_length>
+					<tendon_slack_length>0.0050443446308335244</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6359,7 +6454,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.028399999999999998</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0076267370180647586</tendon_slack_length>
+					<tendon_slack_length>0.0067235242324236184</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6440,7 +6535,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.022800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0050739564457031906</tendon_slack_length>
+					<tendon_slack_length>0.0046177141846753681</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.20943951023931953</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6521,7 +6616,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0109</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.012675101265549625</tendon_slack_length>
+					<tendon_slack_length>0.012086848638153602</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.12217304763960307</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6683,7 +6778,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0060000000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0041272946353688791</tendon_slack_length>
+					<tendon_slack_length>0.0038442532387559301</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.27925268031909273</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6764,7 +6859,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0044999999999999997</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0081750259109584864</tendon_slack_length>
+					<tendon_slack_length>0.0079183121155964042</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.12217304763960307</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6845,7 +6940,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0060999999999999995</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.011323883209993418</tendon_slack_length>
+					<tendon_slack_length>0.011917538352158119</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.17453292519943295</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -6926,7 +7021,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0042000000000000006</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.0084941967341449244</tendon_slack_length>
+					<tendon_slack_length>0.0082268370260295664</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.31415926535897931</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7013,7 +7108,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.012199999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.026498998842359942</tendon_slack_length>
+					<tendon_slack_length>0.027068838451862344</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7106,7 +7201,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.019800000000000002</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.023133924278099353</tendon_slack_length>
+					<tendon_slack_length>0.023409682292243585</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.24434609527920614</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7199,7 +7294,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.011599999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.025464631879985256</tendon_slack_length>
+					<tendon_slack_length>0.025781590190194315</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.24434609527920614</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7292,7 +7387,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.015599999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.026300845371624044</tendon_slack_length>
+					<tendon_slack_length>0.026587489697800237</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7391,7 +7486,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0146</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.03204348924041317</tendon_slack_length>
+					<tendon_slack_length>0.031765445209377581</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.22689280275926285</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7490,7 +7585,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.012500000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.032399954324621685</tendon_slack_length>
+					<tendon_slack_length>0.031988666893352315</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.15707963267948966</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7589,7 +7684,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.012500000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.03210003293327076</tendon_slack_length>
+					<tendon_slack_length>0.031625051612855969</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7682,7 +7777,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.016</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.023619753653661153</tendon_slack_length>
+					<tendon_slack_length>0.02338679490539242</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.069813170079773182</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7781,7 +7876,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0152</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.023809340723455346</tendon_slack_length>
+					<tendon_slack_length>0.024013678282393817</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.15707963267948966</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7880,7 +7975,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.013699999999999999</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.041253390992961617</tendon_slack_length>
+					<tendon_slack_length>0.041557077778798107</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.17453292519943295</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -7979,7 +8074,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0054000000000000003</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.037026032598213722</tendon_slack_length>
+					<tendon_slack_length>0.036839516155816057</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.087266462599716474</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -8084,7 +8179,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0089999999999999993</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.046688376273886466</tendon_slack_length>
+					<tendon_slack_length>0.046484252125497984</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.19198621771937624</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -8189,7 +8284,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.010800000000000001</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.042480194758557965</tendon_slack_length>
+					<tendon_slack_length>0.042282923651310381</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.034906585039886591</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -8294,7 +8389,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0076</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.038337071726710137</tendon_slack_length>
+					<tendon_slack_length>0.038110386675767417</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.15707963267948966</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->
@@ -8387,7 +8482,7 @@
 					<!--Optimal length of the muscle fibers-->
 					<optimal_fiber_length>0.0064999999999999997</optimal_fiber_length>
 					<!--Resting length of the tendon-->
-					<tendon_slack_length>0.012050179149350613</tendon_slack_length>
+					<tendon_slack_length>0.011946572039679105</tendon_slack_length>
 					<!--Angle between tendon and fibers at optimal fiber length expressed in radians-->
 					<pennation_angle_at_optimal>0.22689280275926285</pennation_angle_at_optimal>
 					<!--Compute muscle dynamics ignoring tendon compliance. Tendon is assumed to be rigid.-->

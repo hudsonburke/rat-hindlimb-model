@@ -4,29 +4,20 @@ filters:
   - marimo
 ---
 
-Run this after `02_muscle_edits.ipynb`. It mirrors the unilateral model and writes final bilateral outputs.
+Run this after `02_muscle_edits.py`. It mirrors the unilateral model and writes final bilateral outputs.
 ```python {.marimo}
 
 import opensim as osim
-from pathlib import Path
-import sys
 
-project_root = Path.cwd().resolve()
-if project_root.name == 'pipeline':
-    project_root = project_root.parent.parent
-elif project_root.name == 'notebooks':
-    project_root = project_root.parent
+from rathindlimb.muscle_utils import remove_muscles
+from rathindlimb.processing import update_model
+from rathindlimb.project import project_paths
 
-src_dir = project_root / 'src'
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
-from rathindlimb.processing import update_model, remove_muscles
-
-model_dir = project_root / 'models' / 'osim'
-pipeline_dir = model_dir / '.pipeline'
+paths = project_paths()
+model_dir = paths.model_dir
+xml_dir = paths.xml_dir
+pipeline_dir = paths.pipeline_dir
 pipeline_dir.mkdir(parents=True, exist_ok=True)
-
 unilateral_file = model_dir / 'rat_hindlimb_unilateral.osim'
 bilateral_out = model_dir / 'rat_hindlimb_bilateral.osim'
 bilateral_no_muscles_out = model_dir / 'rat_hindlimb_bilateral_no_muscles.osim'
@@ -144,7 +135,7 @@ for muscle_name in new_muscle_names:
         loc = path_point.get_location()
         path_point.setLocation(osim.Vec3(loc.get(0), loc.get(1), -loc.get(2)))
     muscle_set.append(muscle)
-marker_set = osim.MarkerSet(str(model_dir / 'rat_hindlimb_bilateral_markerset.xml'))
+marker_set = osim.MarkerSet(str(xml_dir / 'rat_hindlimb_bilateral_markers.xml'))
 model.getMarkerSet().clearAndDestroy()
 model.updateMarkerSet(marker_set)
 model_1 = update_model(model, bilateral_out)

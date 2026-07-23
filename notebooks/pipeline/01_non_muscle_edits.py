@@ -7,26 +7,17 @@ Run this notebook first. It applies edits that do not modify muscle properties a
 
 # %% Imports
 import re
-import sys
-from pathlib import Path
 
 import opensim as osim
+
 from rathindlimb.processing import update_model
+from rathindlimb.project import project_paths
 
 # %%
-project_root = Path.cwd().resolve()
-if project_root.name == "pipeline":
-    project_root = project_root.parent.parent
-elif project_root.name == "notebooks":
-    project_root = project_root.parent
-
-src_dir = project_root / "src"
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
-
-model_dir = project_root / "models" / "osim"
-pipeline_dir = model_dir / ".pipeline"
+paths = project_paths()
+model_dir = paths.model_dir
+xml_dir = paths.xml_dir
+pipeline_dir = paths.pipeline_dir
 pipeline_dir.mkdir(parents=True, exist_ok=True)
 
 source_model_file = model_dir / "rat_hindlimb.osim"
@@ -124,7 +115,7 @@ simm3 = osim.SimmSpline.safeDownCast(
 )
 for i, value in enumerate(translation3):
     simm3.setY(i, value)
-marker_set_path = model_dir / "rat_hindlimb_unilateral_markerset.xml"
+marker_set_path = xml_dir / "rat_hindlimb_unilateral_markers.xml"
 marker_set = osim.MarkerSet(str(marker_set_path))
 model.getMarkerSet().clearAndDestroy()
 model.updateMarkerSet(marker_set)

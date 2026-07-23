@@ -14,7 +14,7 @@ muscle_name = ""
 Get muscle data
 
 ```{python}
-from osimpy import OsimGraph
+from osimpy.osim_graph import OsimGraph
 
 graph = OsimGraph.from_file(model_file)
 

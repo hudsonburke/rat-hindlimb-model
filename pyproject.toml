@@ -1,16 +1,43 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "rathindlimb"
 version = "0.1.0"
 description = "Rat hindlimb musculoskeletal model utilities"
-requires-python = ">=3.12"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
 dependencies = [
-    "numpy",
+    "loguru>=0.7",
+    "numpy>=2.1",
+    "opensim>=4.6",
     "osimpy",
+    "polars>=1.0",
+    "pydantic>=2",
 ]
 
-[build-system]
-requires = ["setuptools>=68"]
-build-backend = "setuptools.build_meta"
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
+workflow = [
+    "ezc3d>=1.7",
+    "jupyterlab>=4.4",
+    "marimo>=0.20",
+    "open3d>=0.19",
+    "pandas>=2.2",
+    "scipy>=1.11",
+    "tabulate>=0.9",
+    "tsl-optimization",
+]
+
+[tool.uv]
+default-groups = ["dev", "workflow"]
+
+[tool.uv.sources]
+osimpy = { git = "https://github.com/hudsonburke/osimpy.git", rev = "33809b04eefa2f496430ca906af2bdd9fd572663" }
+tsl-optimization = { git = "https://github.com/hudsonburke/tsl-optimization.git" }
 
 [tool.setuptools]
 packages = ["rathindlimb"]

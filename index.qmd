@@ -9,15 +9,23 @@ execute:
   enabled: false
 ---
 
-## Notebook-first workflow
+## Workflow structure
 
-All model-edit steps are maintained in staged notebooks and should be run directly in Jupyter in this order:
+The editable workflow has three layers:
 
-1. [notebooks/pipeline/01_non_muscle_edits.ipynb](notebooks/pipeline/01_non_muscle_edits.ipynb)
-2. [notebooks/pipeline/02_muscle_edits.ipynb](notebooks/pipeline/02_muscle_edits.ipynb)
-3. [notebooks/pipeline/03_mirroring.ipynb](notebooks/pipeline/03_mirroring.ipynb)
+- `utilities/` contains reusable code imported as `rathindlimb`.
+- `notebooks/pipeline/*.py` are the canonical marimo notebooks for model edits.
+- `notebooks/pipeline/*.qmd` and `*.ipynb` are publish/exchange copies of the same workflow.
 
-These notebooks generate the final files:
+The canonical tendon slack workflow now lives in `notebooks/tsl_optimization.py`. The embedded table below is still sourced from `notebooks/tsl_optimization.ipynb`, which is retained as an exchange/render copy.
+
+Run the canonical model-edit pipeline in order:
+
+1. `uv run marimo edit notebooks/pipeline/01_non_muscle_edits.py`
+2. `uv run marimo edit notebooks/pipeline/02_muscle_edits.py`
+3. `uv run marimo edit notebooks/pipeline/03_mirroring.py`
+
+These steps generate the final files:
 
 - models/osim/
   - rat_hindlimb_unilateral.osim
@@ -31,7 +39,7 @@ This Quarto document is narrative-only and does not execute code during render.
 
 Original model drawn from a [SimTK project](https://simtk.org/projects/rat_hlimb_model) which is based on Johnson et al. 2008 [@johnsonMusculoskeletalModelRat].
 
-Non-muscle edits (naming conventions, geometry format updates, coordinate locks, knee frame/transform updates, and marker-set updates) are executed in [notebooks/pipeline/01_non_muscle_edits.ipynb](notebooks/pipeline/01_non_muscle_edits.ipynb).
+Non-muscle edits (naming conventions, geometry format updates, coordinate locks, knee frame/transform updates, and marker-set updates) are executed in [notebooks/pipeline/01_non_muscle_edits.py](notebooks/pipeline/01_non_muscle_edits.py).
 
 ## Knee joint definition
 
@@ -72,7 +80,7 @@ Johnson's original model relied heavily on wrapping surfaces, but a more recent 
 
 We were able to get in touch with the author of the Animatlab model, Dr. Young, who provided the original files and assisted in understanding the model structure.
 
-Muscle-specific edits (Thelen-to-Millard conversion, wrap/path redefinition, parameter updates, and unilateral outputs) are executed in [notebooks/pipeline/02_muscle_edits.ipynb](notebooks/pipeline/02_muscle_edits.ipynb).
+Muscle-specific edits (Thelen-to-Millard conversion, wrap/path redefinition, parameter updates, and unilateral outputs) are executed in [notebooks/pipeline/02_muscle_edits.py](notebooks/pipeline/02_muscle_edits.py).
 
 
 ## Estimate tendon slack length
@@ -83,13 +91,17 @@ A method for reducing the error in tendon slack length estimation is to optimize
 
 Two ranges of motion are used to estimate the optimal fiber length and tendon slack length of muscles based on observed fiber lengths during motion. The first is the model's full range of motion, and the second is the observed range of motion during walking. For these ranges, the normalized fiber length ranges were set to (0.5, 1.5) for the full ROM and (0.6, 1.2) for walking.
 
+The comparison table below keeps both estimates, but the model is updated with **Walk TSL (mm)**. We treat the full-ROM estimate as diagnostic only: the Cartesian product of independent joint limits can create physiologically unreachable poses, which is exactly where the updated optimizer's no-buckling constraint becomes infeasible.
+
+The current comparison table is shown below.
+
 {{< embed notebooks/tsl_optimization.ipynb#tbl-tsl-comparison >}}
 
-Any tendon slack lengths estimated as 0 are set to rigid.
+Any walking-derived tendon slack lengths estimated as 0 are set to rigid.
 
 ## Mirror the model
 
-Mirroring and bilateral model generation (including bilateral no-muscles output) are executed in [notebooks/pipeline/03_mirroring.ipynb](notebooks/pipeline/03_mirroring.ipynb).
+Mirroring and bilateral model generation (including bilateral no-muscles output) are executed in [notebooks/pipeline/03_mirroring.py](notebooks/pipeline/03_mirroring.py).
 
 
 ## Conclusion

@@ -579,66 +579,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_pitch</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_roll</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_yaw</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_x</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_y</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_z</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
@@ -700,66 +704,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacroiliac_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
@@ -849,66 +857,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
@@ -970,69 +982,73 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0872665 -0.0750492 -0.0645772 -0.0523599 -0.0401426 -0.0296706 -0.0174533 -0.00523599 0.00523599 0.0174533 0.0296706 0.0401426 0.0523599 0.0645772</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0.261799</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.00523853 -0.00464648 -0.00404257 -0.00347254 -0.00297965 -0.00259079 -0.00229943 -0.00211001 -0.00199564 -0.00193207 -0.00187048 -0.00177935 -0.00163827 -0.0014134</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0341684 -0.0342539 -0.0341856 -0.0339723 -0.0336511 -0.0332785 -0.0328898 -0.0325504 -0.0322825 -0.0321161 -0.0320632 -0.0321105 -0.0322397 -0.0324144</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> 0.00260302 0.00280341 0.00285365 0.00290375 0.00289358 0.00277318 0.00270235 0.00261105 0.0024695 0.00241714 0.0024041 0.0023809 0.00249641 0.00269104</y>
@@ -1123,68 +1139,72 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
@@ -1247,66 +1267,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacroiliac_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
@@ -1396,66 +1420,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_l_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_l_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0</value>
 							</Constant>
@@ -1517,69 +1545,73 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> 0.0872665 0.0750492 0.0645772 0.0523599 0.0401426 0.0296706 0.0174533 0.00523599 -0.00523599 -0.0174533 -0.0296706 -0.0401426 -0.0523599 -0.0645772</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>-0.261799</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.00523853 -0.00464648 -0.00404257 -0.00347254 -0.00297965 -0.00259079 -0.00229943 -0.00211001 -0.00199564 -0.00193207 -0.00187048 -0.00177935 -0.00163827 -0.0014134</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0341684 -0.0342539 -0.0341856 -0.0339723 -0.0336511 -0.0332785 -0.0328898 -0.0325504 -0.0322825 -0.0321161 -0.0320632 -0.0321105 -0.0322397 -0.0324144</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.00260302 -0.00280341 -0.00285365 -0.00290375 -0.00289358 -0.00277318 -0.00270235 -0.00261105 -0.0024695 -0.00241714 -0.0024041 -0.0023809 -0.00249641 -0.00269104</y>
@@ -1670,68 +1702,72 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> -1 -0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_l_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> -0 -0 -0 -0 -0 -0 -0 -0 -0 -0</y>

@@ -16,7 +16,7 @@ def _(mo):
     mo.md(r"""
     # 02 Muscle edits (unilateral)
 
-    Run this after `01_non_muscle_edits.ipynb`. It applies muscle-specific edits and writes final unilateral outputs.
+    Run this after `01_non_muscle_edits.py`. It applies muscle-specific edits and writes final unilateral outputs.
     """)
     return
 
@@ -24,30 +24,20 @@ def _(mo):
 @app.cell
 def _():
     import opensim as osim
-    from pathlib import Path
     import polars as pl
     import numpy as np
-    import sys
 
-    project_root = Path.cwd().resolve()
-    if project_root.name == 'pipeline':
-        project_root = project_root.parent.parent
-    elif project_root.name == 'notebooks':
-        project_root = project_root.parent
-
-    src_dir = project_root / 'src'
-    if str(src_dir) not in sys.path:
-        sys.path.insert(0, str(src_dir))
-
-    from rathindlimb.processing import update_model, remove_muscles
-    from rathindlimb.muscle_utils import model_thelen_to_millard
+    from rathindlimb.muscle_utils import model_thelen_to_millard, remove_muscles
+    from rathindlimb.processing import update_model
+    from rathindlimb.project import project_paths
     from rathindlimb.registration import register_meshes, apply_transformation_to_mesh, convert_points_between_meshes
 
-    model_dir = project_root / 'models' / 'osim'
-    pipeline_dir = model_dir / '.pipeline'
-    data_dir = project_root / 'data'
-    mesh_dir = project_root / 'models' / 'meshes'
-    attachment_dir = data_dir / 'attachments'
+    paths = project_paths()
+    model_dir = paths.model_dir
+    pipeline_dir = paths.pipeline_dir
+    data_dir = paths.data_dir
+    mesh_dir = paths.mesh_dir
+    attachment_dir = paths.attachment_dir
 
     input_file = pipeline_dir / 'rat_hindlimb_non_muscle.osim'
     unilateral_out = model_dir / 'rat_hindlimb_unilateral.osim'
@@ -171,6 +161,8 @@ def _(
             _muscle.setPennationAngleAtOptimalFiberLength(params['θ0 (deg)'] * np.pi / 180)
         tsl_params = tsl_df.row(by_predicate=pl.col('Abbreviation') == _muscle_name, named=True)
         if tsl_params is not None:
+            # Use walking-derived TSL for model updates. Full-ROM values are kept in
+            # the comparison table for diagnostics only.
             lts = tsl_params['Walk TSL (mm)'] / 1000
             if lts <= 0:
                 _muscle.set_ignore_tendon_compliance(True)

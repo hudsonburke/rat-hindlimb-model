@@ -15,3 +15,7 @@ models/osim/.pipeline/
 /.quarto/
 **/*.quarto_ipynb
 .windows-serial
+
+# MemPalace per-project files (issue #185)
+mempalace.yaml
+entities.json
