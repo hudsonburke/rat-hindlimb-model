@@ -7,26 +7,20 @@ This repository contains code and data to generate a bilateral musculoskeletal m
 ## Quickstart
 
 - Clone the repository with submodules
-- Create and activate the conda environment
+- Install with [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
 ### Installation
 
-If not already installed, install:
-
-- [git](https://git-scm.com/install/)
-- [conda](https://www.anaconda.com/docs/getting-started/miniconda/install)
-  - Miniconda is sufficient, but any anaconda installation will work
-
 ```shell
-# Clone the repository and necessary submodules
-git clone --recurse-submodules 
+# Clone the repository
+git clone --recurse-submodules https://github.com/hudsonburke/rat-hindlimb-model.git
+cd rat-hindlimb-model
 
-# Install dependencies
-conda env create -f environment.yml
-conda activate rathindlimb
+# Install dependencies with uv
+uv sync
 
-# Install the package
-python -m pip install -e .
+# Or with pip
+pip install -e .
 ```
 
 ### Usage
@@ -64,18 +58,14 @@ See HuggingFace repository hudsonburke/rat-hindlimb-mocap
 - [ ] Separate out muscle specific edits
 - [ ] Move computational things in index.qmd to isolated notebooks
   - This is now compatible with branch-aware artifact saving and Quarto caching
-- [ ] Package install instructions and change src.\* to rathindlimb.\*
-  - Create setup script
-- [x] Add osimpy as submodule
-  - Eventually this should be a dependency
+- [x] Package install instructions and change src.* to rathindlimb.*
+  - Package uses utilities/ directory via package-dir mapping
+- [x] Add osimpy as uv source dependency
 - [ ] Formalize muscle analysis functions
 - [ ] Create tests for model validation
 - [x] Clean up intermediate model edits
-- [ ] Clean up conda environment.yml
+- [x] Migrate from conda to uv for dependency management
 - [ ] Organize script usage into Makefile
-- [ ] Switch to uv for dependency management
-  - Currently waiting for opensim bindings to be easily available
-  - Pyopensim doesn't quite work
 
 ## References and Acknowledgements
 

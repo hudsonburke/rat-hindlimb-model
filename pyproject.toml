@@ -2,11 +2,25 @@
 name = "rathindlimb"
 version = "0.1.0"
 description = "Rat hindlimb musculoskeletal model utilities"
+readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "numpy",
+    "opensim>=4.6",
     "osimpy",
+    "open3d",
 ]
+
+[project.optional-dependencies]
+dev = [
+    "ezc3d",
+    "marimo",
+    "polars",
+    "pytest>=8",
+]
+
+[tool.uv.sources]
+osimpy = { git = "https://github.com/hudsonburke/osimpy.git" }
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -17,3 +31,7 @@ packages = ["rathindlimb"]
 
 [tool.setuptools.package-dir]
 rathindlimb = "utilities"
+
+[tool.pytest.ini_options]
+pythonpath = ["utilities"]
+testpaths = ["tests"]
