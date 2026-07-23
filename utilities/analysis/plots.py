@@ -1,22 +1,24 @@
 """Plotting functions for VML gait analysis.
 
-Generates kinematic and kinetic comparison figures with SPM
-significance highlights, matching the format used in the
-rat-vml manuscript and thesis chapter.
+Mirrors the MATLAB plotgroupspm.m and spmtimepointcomparison.m logic
+from the UVA-MAMP-Lab Rats/Toolbox repos.
+
+Key differences from default matplotlib plotting:
+- Knee flexion angle is negated (MATLAB convention)
+- Moments are normalized by mass*totalLength (Nm/kg)
+- Stance/swing boundary at 50% is marked with a vertical line
+- Plots show hip, knee, ankle in that order
 """
 
 import logging
 from pathlib import Path
 
 import numpy as np
-import polars as pl
 
 logger = logging.getLogger(__name__)
 
 try:
     import matplotlib.pyplot as plt
-    import matplotlib.patches as mpatches
-    from matplotlib.lines import Line2D
     import seaborn as sns
 except ImportError:
     plt = None
@@ -31,37 +33,12 @@ except ImportError:
 # Colour palette for treatment groups
 GROUP_COLORS = {
     "Control": "#4C72B0",
-    "NR": "#DD8452",
+    "No Repair": "#DD8452",
     "TEMR": "#55A868",
-    "HH": "#C44E52",
-    "HS": "#8172B3",
-    "TEMR+HH": "#937860",
-    "TEMR+KG": "#DA8BC3",
-}
-
-# Mapping from treatment group codes to plot labels
-GROUP_LABELS = {
-    "Control": "Control",
-    "NR": "No Repair",
-    "TEMR": "TEMR",
-    "HH": "Healy Hydrogel",
-    "HS": "Healy Sponge",
-    "TEMR+HH": "TEMR+H",
-    "TEMR+KG": "TEMR+KG",
-}
-
-# Joint display names
-JOINT_LABELS = {
-    "hip_r_flx": "Hip Flexion",
-    "hip_r_add": "Hip Adduction",
-    "hip_r_int": "Hip Rotation",
-    "knee_r_flx": "Knee Flexion",
-    "ankle_r_flx": "Ankle Flexion",
-    "hip_r_flx_moment": "Hip Moment",
-    "hip_r_add_moment": "Hip Add Moment",
-    "hip_r_int_moment": "Hip Rot Moment",
-    "knee_r_flx_moment": "Knee Moment",
-    "ankle_r_flx_moment": "Ankle Moment",
+    "Healy Hydrogel": "#C44E52",
+    "Healy Sponge": "#8172B3",
+    "Healy Hydrogel + TEMR": "#937860",
+    "Keratin Gel + TEMR": "#DA8BC3",
 }
 
 
@@ -84,106 +61,104 @@ def _init_style():
     )
 
 
-def _spm_highlight(
-    ax: "plt.Axes",
-    x: np.ndarray,
-    y_ref: np.ndarray,
-    y_test: np.ndarray,
-    alpha: float = 0.05,
-    color: str = "red",
-) -> None:
-    """Run SPM t-test and highlight significant regions on *ax*.
-
-    References
-    ----------
-    Pataky, 2010. "SPM".  https://spm1d.org/
-    """
-    if spm1d is None:
-        return
-    try:
-        t = spm1d.stats.ttest_paired(y_ref, y_test)
-        ti = t.inference(alpha)
-        if ti.clusters:
-            for cl in ti.clusters:
-                start = int(x[cl.start])
-                end = int(x[cl.end])
-                ax.axvspan(start, end, color=color, alpha=0.15, zorder=0)
-    except Exception as e:
-        logger.warning(f"SPM failed: {e}")
-
-
 def plot_kinematics(
-    group_mean: pl.DataFrame,
-    group_std: pl.DataFrame,
-    control_mean: pl.DataFrame | None,
-    control_std: pl.DataFrame | None,
+    group_mean: np.ndarray,
+    group_std: np.ndarray,
+    control_mean: np.ndarray | None,
+    control_std: np.ndarray | None,
     group_name: str,
     coord_names: list[str],
     output_path: Path,
-    n_cols: int = 3,
+    side: str = "r",
+    n_points: int = 101,
+    negated: list[str] | None = None,
 ) -> Path:
     """Generate kinematic comparison plot for one treatment group.
 
+    Matches MATLAB plotgroupspm.m layout:
+    - Hip flexion, Hip adduction, Hip internal rotation
+    - Knee flexion (negated), Ankle dorsiflexion
+
     Parameters
     ----------
-    group_mean, group_std : pl.DataFrame
-        Mean and std for the treatment group (from aggregate_group).
-    control_mean, control_std : pl.DataFrame
-        Mean and std for the Control group (for reference overlay).
+    group_mean, group_std : (202, n_coords) arrays
+        Mean and std for the treatment group (stance+swing).
+    control_mean, control_std : (202, n_coords) arrays or None
+        Mean and std for the Control group.
     group_name : str
         Treatment group name (used in title and filename).
     coord_names : list[str]
-        Coordinate columns to plot.
+        Column names matching the IK output columns.
     output_path : Path
         Directory to save the figure.
-    n_cols : int
-        Number of subplot columns.
+    side : str
+        Side prefix ("r" or "l").
+    n_points : int
+        Points per phase (default 101).
+    negated : list[str] or None
+        Coordinates to negate (knee flexion by convention).
     """
     _init_style()
-    n_rows = int(np.ceil(len(coord_names) / n_cols))
+    if negated is None:
+        negated = [f"knee_{side}_flx"]
 
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(3.5 * n_cols, 2.5 * n_rows))
-    axes_flat = axes.flatten() if n_rows > 1 else axes
-    fig.suptitle(f"{GROUP_LABELS.get(group_name, group_name)} — Kinematics", fontsize=12)
+    # Indices for the coordinates to plot
+    plot_coords = [
+        f"hip_{side}_flx",
+        f"hip_{side}_add",
+        f"hip_{side}_int",
+        f"knee_{side}_flx",
+        f"ankle_{side}_flx",
+    ]
+    titles = [
+        "Hip Flexion",
+        "Hip Adduction",
+        "Hip Internal Rotation",
+        "Knee Flexion",
+        "Ankle Dorsiflexion",
+    ]
 
-    gait = group_mean["gait_percentage"].to_numpy()
+    gait_pct = np.linspace(0, 200, 2 * n_points)
 
-    for i, coord in enumerate(coord_names):
-        ax = axes_flat[i]
+    fig, axes = plt.subplots(1, 5, figsize=(18, 3))
+    fig.suptitle(f"{group_name} — Kinematics", fontsize=12)
 
-        # Control group reference
-        if control_mean is not None and coord in control_mean.columns:
-            c_mean = control_mean[coord].to_numpy()
-            c_std = control_std[coord].to_numpy() if control_std is not None else None
-            ax.plot(gait, c_mean, color="gray", linewidth=1.5, linestyle="--", alpha=0.6)
-            if c_std is not None:
-                ax.fill_between(gait, c_mean - c_std, c_mean + c_std,
-                                color="gray", alpha=0.1)
+    for i, (coord, title) in enumerate(zip(plot_coords, titles)):
+        ax = axes[i]
+        col_idx = coord_names.index(coord) if coord in coord_names else None
+        if col_idx is None:
+            ax.set_title(title)
+            continue
+
+        # Apply negation for knee flexion (MATLAB convention)
+        sign = -1.0 if coord in negated else 1.0
+
+        # Control reference
+        if control_mean is not None and control_std is not None:
+            c_mean = control_mean[:, col_idx] * sign
+            c_std = control_std[:, col_idx]
+            ax.plot(gait_pct, c_mean, color="gray", linewidth=1.5, linestyle="--", alpha=0.6)
+            ax.fill_between(gait_pct, c_mean - c_std, c_mean + c_std,
+                            color="gray", alpha=0.1)
 
         # Treatment group
-        t_mean = group_mean[coord].to_numpy()
-        t_std = group_std[coord].to_numpy()
+        t_mean = group_mean[:, col_idx] * sign
+        t_std = group_std[:, col_idx]
         color = GROUP_COLORS.get(group_name, "#4C72B0")
-        ax.plot(gait, t_mean, color=color, linewidth=2)
-        ax.fill_between(gait, t_mean - t_std, t_mean + t_std,
+        ax.plot(gait_pct, t_mean, color=color, linewidth=2)
+        ax.fill_between(gait_pct, t_mean - t_std, t_mean + t_std,
                         color=color, alpha=0.2)
 
-        # SPM highlights vs Control and vs NR would go here
-        # _spm_highlight(ax, gait, control_mean[coord], group_mean[coord])
-
-        ax.axvline(x=50, color="gray", linestyle=":", linewidth=0.8)
-        ax.set_title(JOINT_LABELS.get(coord, coord), fontsize=9)
+        # Stance/swing boundary
+        ax.axvline(x=n_points, color="gray", linestyle=":", linewidth=0.8)
+        ax.set_title(title, fontsize=9)
         ax.set_xlabel("Gait %", fontsize=8)
         ax.set_ylabel("Angle (°)", fontsize=8)
-        ax.set_xlim(0, 100)
+        ax.set_xlim(0, 2 * n_points)
         ax.tick_params(labelsize=7)
 
-    # Hide unused subplots
-    for i in range(len(coord_names), len(axes_flat)):
-        axes_flat[i].set_visible(False)
-
     plt.tight_layout()
-    path = output_path / f"{group_name.lower().replace('+', '_')}_kinematics.png"
+    path = Path(output_path) / f"{group_name.lower().replace('+', '_')}_kinematics.png"
     fig.savefig(path, dpi=300)
     plt.close(fig)
     logger.info(f"Saved {path}")
@@ -191,57 +166,76 @@ def plot_kinematics(
 
 
 def plot_kinetics(
-    group_mean: pl.DataFrame,
-    group_std: pl.DataFrame,
-    control_mean: pl.DataFrame | None,
-    control_std: pl.DataFrame | None,
+    group_mean: np.ndarray,
+    group_std: np.ndarray,
+    control_mean: np.ndarray | None,
+    control_std: np.ndarray | None,
     group_name: str,
     moment_names: list[str],
     output_path: Path,
-    n_cols: int = 3,
+    side: str = "r",
+    n_points: int = 101,
+    negated: list[str] | None = None,
 ) -> Path:
     """Generate joint-moment comparison plot for one treatment group."""
     _init_style()
-    n_rows = int(np.ceil(len(moment_names) / n_cols))
+    if negated is None:
+        negated = [f"knee_{side}_flx_moment"]
 
-    fig, axes = plt.subplots(n_rows, n_cols, figsize=(3.5 * n_cols, 2.5 * n_rows))
-    axes_flat = axes.flatten() if n_rows > 1 else axes
-    fig.suptitle(f"{GROUP_LABELS.get(group_name, group_name)} — Joint Moments", fontsize=12)
+    plot_moments = [
+        f"hip_{side}_flx_moment",
+        f"hip_{side}_add_moment",
+        f"hip_{side}_int_moment",
+        f"knee_{side}_flx_moment",
+        f"ankle_{side}_flx_moment",
+    ]
+    titles = [
+        "Hip Flexion Moment",
+        "Hip Adduction Moment",
+        "Hip Internal Rotation Moment",
+        "Knee Flexion Moment",
+        "Ankle Flexion Moment",
+    ]
 
-    gait = group_mean["gait_percentage"].to_numpy()
+    gait_pct = np.linspace(0, 200, 2 * n_points)
 
-    for i, moment in enumerate(moment_names):
-        ax = axes_flat[i]
+    fig, axes = plt.subplots(1, 5, figsize=(18, 3))
+    fig.suptitle(f"{group_name} — Joint Moments", fontsize=12)
+
+    for i, (moment, title) in enumerate(zip(plot_moments, titles)):
+        ax = axes[i]
+        col_idx = moment_names.index(moment) if moment in moment_names else None
+        if col_idx is None:
+            ax.set_title(title)
+            continue
+
+        sign = -1.0 if moment in negated else 1.0
 
         # Control reference
-        if control_mean is not None and moment in control_mean.columns:
-            c_mean = control_mean[moment].to_numpy()
-            c_std = control_std[moment].to_numpy() if control_std is not None else None
-            ax.plot(gait, c_mean, color="gray", linewidth=1.5, linestyle="--", alpha=0.6)
-            if c_std is not None:
-                ax.fill_between(gait, c_mean - c_std, c_mean + c_std,
-                                color="gray", alpha=0.1)
+        if control_mean is not None and control_std is not None:
+            c_mean = control_mean[:, col_idx] * sign
+            c_std = control_std[:, col_idx]
+            ax.plot(gait_pct, c_mean, color="gray", linewidth=1.5, linestyle="--", alpha=0.6)
+            ax.fill_between(gait_pct, c_mean - c_std, c_mean + c_std,
+                            color="gray", alpha=0.1)
 
         # Treatment group
-        t_mean = group_mean[moment].to_numpy()
-        t_std = group_std[moment].to_numpy()
+        t_mean = group_mean[:, col_idx] * sign
+        t_std = group_std[:, col_idx]
         color = GROUP_COLORS.get(group_name, "#4C72B0")
-        ax.plot(gait, t_mean, color=color, linewidth=2)
-        ax.fill_between(gait, t_mean - t_std, t_mean + t_std,
+        ax.plot(gait_pct, t_mean, color=color, linewidth=2)
+        ax.fill_between(gait_pct, t_mean - t_std, t_mean + t_std,
                         color=color, alpha=0.2)
 
-        ax.axvline(x=50, color="gray", linestyle=":", linewidth=0.8)
-        ax.set_title(JOINT_LABELS.get(moment, moment), fontsize=9)
+        ax.axvline(x=n_points, color="gray", linestyle=":", linewidth=0.8)
+        ax.set_title(title, fontsize=9)
         ax.set_xlabel("Gait %", fontsize=8)
-        ax.set_ylabel("Moment (N·m/kg)", fontsize=8)
-        ax.set_xlim(0, 100)
+        ax.set_ylabel("Moment (Nm/kg)", fontsize=8)
+        ax.set_xlim(0, 2 * n_points)
         ax.tick_params(labelsize=7)
 
-    for i in range(len(moment_names), len(axes_flat)):
-        axes_flat[i].set_visible(False)
-
     plt.tight_layout()
-    path = output_path / f"{group_name.lower().replace('+', '_')}_kinetics.png"
+    path = Path(output_path) / f"{group_name.lower().replace('+', '_')}_kinetics.png"
     fig.savefig(path, dpi=300)
     plt.close(fig)
     logger.info(f"Saved {path}")
@@ -259,6 +253,8 @@ def generate_all_figures(
 
     Returns list of saved figure paths.
     """
+    from .pipeline import GroupResult
+
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
