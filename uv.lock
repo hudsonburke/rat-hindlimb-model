@@ -1067,7 +1067,13 @@ wheels = [
 [[package]]
 name = "osimpy"
 version = "0.1.0"
-source = { git = "https://github.com/hudsonburke/osimpy.git#64287ed5d7174bd71182056d87b180a03e9b15b0" }
+source = { git = "https://github.com/hudsonburke/osimpy.git#1d87d808fd5bbefb884c0e87c424a61ff4b99276" }
+dependencies = [
+    { name = "numpy" },
+    { name = "opensim" },
+    { name = "polars" },
+    { name = "pydantic" },
+]
 
 [[package]]
 name = "packaging"
