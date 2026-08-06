@@ -23,7 +23,8 @@ src_dir = project_root / "src"
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-from rathindlimb.processing import update_model, remove_muscles
+from rathindlimb.processing import update_model
+from rathindlimb.muscle_utils import remove_muscles
 
 model_dir = project_root / "models" / "osim"
 pipeline_dir = model_dir / ".pipeline"
@@ -194,7 +195,7 @@ print(f"Mirrored {len(new_muscle_names)} muscles")
 
 # %% Apply bilateral marker set and save
 marker_set = osim.MarkerSet(
-    str(model_dir / "rat_hindlimb_bilateral_markerset.xml")
+    str(model_dir / "xml" / "rat_hindlimb_bilateral_markers.xml")
 )
 model.getMarkerSet().clearAndDestroy()
 model.updateMarkerSet(marker_set)
@@ -206,3 +207,7 @@ bilateral_no_muscles = remove_muscles(bilateral_no_muscles)
 _ = update_model(bilateral_no_muscles, bilateral_no_muscles_out)
 print(f"Wrote {bilateral_out}")
 print(f"Wrote {bilateral_no_muscles_out}")
+
+# OpenSim bindings segfault during interpreter shutdown; exit cleanly
+import os
+os._exit(0)
