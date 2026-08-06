@@ -124,7 +124,7 @@ simm3 = osim.SimmSpline.safeDownCast(
 )
 for i, value in enumerate(translation3):
     simm3.setY(i, value)
-marker_set_path = model_dir / "rat_hindlimb_unilateral_markerset.xml"
+marker_set_path = model_dir / "xml" / "rat_hindlimb_unilateral_markers.xml"
 marker_set = osim.MarkerSet(str(marker_set_path))
 model.getMarkerSet().clearAndDestroy()
 model.updateMarkerSet(marker_set)
