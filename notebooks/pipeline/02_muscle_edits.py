@@ -25,7 +25,8 @@ src_dir = project_root / "src"
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-from rathindlimb.processing import update_model, remove_muscles
+from rathindlimb.processing import update_model
+from rathindlimb.muscle_utils import remove_muscles
 from rathindlimb.muscle_utils import model_thelen_to_millard
 from rathindlimb.registration import (
     register_meshes,
