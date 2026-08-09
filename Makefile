@@ -1,6 +1,6 @@
-.PHONY: all sync clean 01 02 03 tsl lengths
+.PHONY: all sync clean 01 02 03 04 tsl lengths
 
-# Default: run the full pipeline
+# Default: run the full pipeline (04 excluded — requires motion data)
 all: sync 01 02 03
 
 # ---------------------------------------------------------------------------
@@ -30,9 +30,12 @@ sync:
 # Analysis notebooks
 # ---------------------------------------------------------------------------
 
-# Recompute tendon slack lengths using tsl-optimization package
-tsl: sync
-	uv run jupyter nbconvert --to notebook --execute notebooks/tsl_optimization.ipynb
+# 04 — TSL optimization: estimate tendon slack lengths from motion data
+04: sync
+	cd pipeline && uv run python 04_tsl_optimization.py
+
+# Recompute tendon slack lengths using tsl-optimization package (alias for 04)
+tsl: 04
 
 # Analyze muscle length profiles across range of motion
 lengths: sync
@@ -42,4 +45,4 @@ lengths: sync
 # Clean
 # ---------------------------------------------------------------------------
 clean:
-	rm -rf models/osim/.pipeline models/output/*.osim
+	rm -rf models/output/.pipeline models/output/*.osim
