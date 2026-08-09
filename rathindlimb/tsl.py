@@ -12,8 +12,11 @@ from tsl_optimization import calc_tsl, optimize_fiber_length
 
 
 @contextmanager
-def _timeout(seconds: int, muscle_name: str):
-    """Raise TimeoutError after `seconds` (Unix only)."""
+def _timeout(seconds: int | None, muscle_name: str):
+    """Raise TimeoutError after `seconds`. Pass None to disable."""
+    if seconds is None or seconds <= 0:
+        yield
+        return
 
     def _handler(signum, frame):
         raise TimeoutError(f"{muscle_name} optimization timed out after {seconds}s")
@@ -84,7 +87,7 @@ def optimize_tsl_for_model(
     min_points: int = 50,
     max_evaluations: int = 2000,
     max_opt_points: int = 500,
-    timeout_seconds: int = 30,
+    timeout_seconds: int | None = 30,
 ) -> pl.DataFrame:
     """
     Optimize tendon slack lengths for all muscles in the model.
@@ -100,7 +103,8 @@ def optimize_tsl_for_model(
     lm_walk_range : normalized fiber length range for walking
     min_points : minimum sample points for full ROM evaluation
     max_evaluations : max optimizer iterations per muscle
-    timeout_seconds : per-muscle timeout (Unix only)
+    max_opt_points : subsample size for optimizer (SLSQP scales with variable count)
+    timeout_seconds : per-muscle timeout in seconds, or None to disable (Unix only)
 
     Returns
     -------
