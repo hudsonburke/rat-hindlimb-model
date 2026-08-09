@@ -141,10 +141,12 @@ for _i in range(_muscles.getSize()):
         by_predicate=pl.col("Abbreviation") == _muscle_name, named=True
     )
     if tsl_params is not None:
-        lts = tsl_params["Walk TSL (mm)"] / 1000
-        if lts <= 0:
-            _muscle.set_ignore_tendon_compliance(True)
-        _muscle.setTendonSlackLength(lts)
+        lts = tsl_params["Walk TSL (mm)"]
+        if lts is not None:
+            lts = lts / 1000
+            if lts <= 0:
+                _muscle.set_ignore_tendon_compliance(True)
+            _muscle.setTendonSlackLength(lts)
 
 # %% Save outputs
 model_1 = update_model(model, unilateral_out)

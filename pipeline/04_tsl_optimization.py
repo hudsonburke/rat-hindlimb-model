@@ -25,14 +25,15 @@ output_csv = data_dir / "parameters" / "tsl_comparison.csv"
 
 # %% Load model and motion data
 graph = OsimGraph.from_file(str(model_file))
-walk_data = load_walking_ik(motion_file)
+walk_data = load_walking_ik(motion_file, resolution=2)
 
 # %% Run optimization (walking ROM only — faster and more physically relevant)
 tsl_df = optimize_tsl_for_model(
     graph,
     walk_data=walk_data,
     lm_walk_range=(0.6, 1.2),
-    max_evaluations=5000,
+    max_evaluations=2000,
+    max_opt_points=500,
     timeout_seconds=30,
 )
 

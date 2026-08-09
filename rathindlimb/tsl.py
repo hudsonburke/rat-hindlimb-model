@@ -46,16 +46,33 @@ def _optimize_single(
     tfl,
     lm_norm_range: tuple[float, float],
     max_evaluations: int = 5000,
+    max_points: int = 500,
 ) -> float | None:
-    """Run fiber-length optimization and return mean TSL in mm, or None on failure."""
+    """Run fiber-length optimization and return mean TSL in mm, or None on failure.
+
+    Subsamples lmt to max_points for the optimizer (SLSQP scales poorly
+    with variable count), then computes TSL on the full dataset.
+    """
     try:
+        # Subsample for optimization if too many points
+        if len(lmt) > max_points:
+            indices = np.linspace(0, len(lmt) - 1, max_points, dtype=int)
+            lmt_opt = lmt[indices]
+        else:
+            lmt_opt = lmt
+
         lm = optimize_fiber_length(
-            lmt, lm_opt, alpha_opt, afl, pfl, tfl,
+            lmt_opt, lm_opt, alpha_opt, afl, pfl, tfl,
             lm_norm_range, max_evaluations=max_evaluations,
         )
-        tsl = calc_tsl(lmt, lm, lm_opt, alpha_opt, afl, pfl, tfl)
+        # Compute TSL on the full dataset using interpolated fiber lengths
+        if len(lmt) > max_points:
+            lm_full = np.interp(lmt, lmt_opt, lm)
+        else:
+            lm_full = lm
+        tsl = calc_tsl(lmt, lm_full, lm_opt, alpha_opt, afl, pfl, tfl)
         return float(np.mean(tsl)) * 1000
-    except RuntimeError:
+    except (RuntimeError, TimeoutError):
         return None
 
 
@@ -65,7 +82,8 @@ def optimize_tsl_for_model(
     lm_norm_range: tuple[float, float] = (0.5, 1.5),
     lm_walk_range: tuple[float, float] = (0.6, 1.2),
     min_points: int = 50,
-    max_evaluations: int = 5000,
+    max_evaluations: int = 2000,
+    max_opt_points: int = 500,
     timeout_seconds: int = 30,
 ) -> pl.DataFrame:
     """
@@ -125,7 +143,7 @@ def optimize_tsl_for_model(
         with _timeout(timeout_seconds, muscle_name):
             tsl_val = _optimize_single(
                 lmt, lm_opt, alpha_opt, afl, pfl, tfl,
-                norm_range, max_evaluations,
+                norm_range, max_evaluations, max_opt_points,
             )
 
         if tsl_val is not None:

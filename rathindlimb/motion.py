@@ -42,6 +42,7 @@ def load_walking_ik(
     mat_path: str | Path,
     coords: list[str] | None = None,
     n_std: float = 1.0,
+    resolution: int = 2,
 ) -> pl.DataFrame:
     """
     Load walking IK data from Control.mat and return coordinate combinations.
@@ -54,6 +55,10 @@ def load_walking_ik(
     mat_path : path to Control.mat
     coords : coordinate names to extract (default: WALK_COORDS)
     n_std : number of standard deviations for the range (default: 1.0)
+    resolution : samples per coordinate per timestep (default: 2)
+        Total combos per timestep = resolution ^ len(coords).
+        1 = mean only (202 points), 2 = mean±1σ (6,464 points),
+        3 = 3 evenly spaced (50,500 points).
 
     Returns
     -------
@@ -77,7 +82,7 @@ def load_walking_ik(
     lb = avg_coords - n_std * std_coords
 
     # linspace shape: (resolution, n_rows, n_coords)
-    dist = np.linspace(lb.to_numpy(), ub.to_numpy(), 1)
+    dist = np.linspace(lb.to_numpy(), ub.to_numpy(), resolution)
     # Cartesian product across coords at each timestep
     combos = np.array(
         [list(product(*dist[:, i, :].T)) for i in range(n_rows)]
