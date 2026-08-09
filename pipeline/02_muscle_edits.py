@@ -11,38 +11,31 @@ parameter updates) and writes final unilateral outputs.
 import opensim as osim
 import polars as pl
 import numpy as np
-import sys
 from pathlib import Path
 
-# %% Setup paths
-project_root = Path.cwd().resolve()
-if project_root.name == "pipeline":
-    project_root = project_root.parent.parent
-elif project_root.name == "notebooks":
-    project_root = project_root.parent
-
-src_dir = project_root / "src"
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
-from rathindlimb.processing import update_model
-from rathindlimb.muscle_utils import remove_muscles
-from rathindlimb.muscle_utils import model_thelen_to_millard
+from rathindlimb.model_utils import (
+    update_model,
+    remove_muscles,
+    model_thelen_to_millard,
+)
 from rathindlimb.registration import (
     register_meshes,
     apply_transformation_to_mesh,
     convert_points_between_meshes,
 )
 
-model_dir = project_root / "models" / "osim"
-pipeline_dir = model_dir / ".pipeline"
+# %% Setup paths
+project_root = Path.cwd().resolve().parent
+model_dir = project_root / "models" / "input"
+output_dir = project_root / "models" / "output"
+pipeline_dir = output_dir / ".pipeline"
 data_dir = project_root / "data"
-mesh_dir = project_root / "models" / "meshes"
+mesh_dir = model_dir / "meshes"
 attachment_dir = data_dir / "attachments"
 
 input_file = pipeline_dir / "rat_hindlimb_non_muscle.osim"
-unilateral_out = model_dir / "rat_hindlimb_unilateral.osim"
-unilateral_no_muscles_out = model_dir / "rat_hindlimb_unilateral_no_muscles.osim"
+unilateral_out = output_dir / "rat_hindlimb_unilateral.osim"
+unilateral_no_muscles_out = output_dir / "rat_hindlimb_unilateral_no_muscles.osim"
 
 # %% Load model and convert to Millard
 model = osim.Model(str(input_file))
@@ -63,13 +56,13 @@ apply_transformation_to_mesh(foot_file, transform, final_file)
 source_postfix = "_young.stl"
 target_postfix = "_johnson.stl"
 output_postfix = ".stl"
-output_dir = model_dir / "Geometry"
+geometry_dir = model_dir / "Geometry"
 meshes = ["spine", "pelvis_r", "femur_r", "tibia_r", "foot_r"]
 transforms = {}
 for _mesh in meshes:
     source_file = mesh_dir / (_mesh + source_postfix)
     target_file = mesh_dir / (_mesh + target_postfix)
-    output_file = output_dir / (_mesh + output_postfix)
+    output_file = geometry_dir / (_mesh + output_postfix)
     transforms[_mesh] = register_meshes(source_file, target_file, output_file, seed=120)
 
 # Load Young attachment points

@@ -53,10 +53,10 @@ make tsl  # Executes notebooks/tsl_optimization.ipynb
 
 Final published models are written to:
 
-- `models/osim/rat_hindlimb_unilateral.osim`
-- `models/osim/rat_hindlimb_unilateral_no_muscles.osim`
-- `models/osim/rat_hindlimb_bilateral.osim`
-- `models/osim/rat_hindlimb_bilateral_no_muscles.osim`
+- `models/output/rat_hindlimb_unilateral.osim`
+- `models/output/rat_hindlimb_unilateral_no_muscles.osim`
+- `models/output/rat_hindlimb_bilateral.osim`
+- `models/output/rat_hindlimb_bilateral_no_muscles.osim`
 
 ## Example Results
 
@@ -65,6 +65,16 @@ See HuggingFace repository hudsonburke/rat-hindlimb-mocap
 ## Contributing
 
 ### Repo Structure
+
+```
+rathindlimb/       # Python package (model utilities, mesh registration, scaling)
+pipeline/          # Model editing scripts (run in order: 01 → 02 → 03)
+data/              # Input parameters, attachment points, motion data
+models/
+  input/           # Original Johnson model, meshes, XML setup files
+  output/          # Generated models (gitignored, shipped as release)
+notebooks/         # Analysis notebooks (TSL optimization, muscle lengths)
+```
 
 ### TODO
 

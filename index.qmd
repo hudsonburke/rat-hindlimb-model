@@ -21,11 +21,11 @@ make 03   # Bilateral mirroring
 
 These scripts generate the final files:
 
-- models/osim/
-  - rat_hindlimb_unilateral.osim
-  - rat_hindlimb_unilateral_no_muscles.osim
-  - rat_hindlimb_bilateral.osim
-  - rat_hindlimb_bilateral_no_muscles.osim
+- `models/output/`
+  - `rat_hindlimb_unilateral.osim`
+  - `rat_hindlimb_unilateral_no_muscles.osim`
+  - `rat_hindlimb_bilateral.osim`
+  - `rat_hindlimb_bilateral_no_muscles.osim`
 
 This Quarto document is narrative-only and does not execute code during render.
 
@@ -33,7 +33,7 @@ This Quarto document is narrative-only and does not execute code during render.
 
 Original model drawn from a [SimTK project](https://simtk.org/projects/rat_hlimb_model) which is based on Johnson et al. 2008 [@johnsonMusculoskeletalModelRat].
 
-Non-muscle edits (naming conventions, geometry format updates, coordinate locks, knee frame/transform updates, and marker-set updates) are executed in [notebooks/pipeline/01_non_muscle_edits.ipynb](notebooks/pipeline/01_non_muscle_edits.ipynb).
+Non-muscle edits (naming conventions, geometry format updates, coordinate locks, knee frame/transform updates, and marker-set updates) are executed in [pipeline/01_non_muscle_edits.py](pipeline/01_non_muscle_edits.py).
 
 ## Knee joint definition
 
@@ -74,7 +74,7 @@ Johnson's original model relied heavily on wrapping surfaces, but a more recent 
 
 We were able to get in touch with the author of the Animatlab model, Dr. Young, who provided the original files and assisted in understanding the model structure.
 
-Muscle-specific edits (Thelen-to-Millard conversion, wrap/path redefinition, parameter updates, and unilateral outputs) are executed in [notebooks/pipeline/02_muscle_edits.ipynb](notebooks/pipeline/02_muscle_edits.ipynb).
+Muscle-specific edits (Thelen-to-Millard conversion, wrap/path redefinition, parameter updates, and unilateral outputs) are executed in [pipeline/02_muscle_edits.py](pipeline/02_muscle_edits.py).
 
 
 ## Estimate tendon slack length
@@ -91,7 +91,7 @@ Any tendon slack lengths estimated as 0 are set to rigid.
 
 ## Mirror the model
 
-Mirroring and bilateral model generation (including bilateral no-muscles output) are executed in [notebooks/pipeline/03_mirroring.ipynb](notebooks/pipeline/03_mirroring.ipynb).
+Mirroring and bilateral model generation (including bilateral no-muscles output) are executed in [pipeline/03_mirroring.py](pipeline/03_mirroring.py).
 
 
 ## Conclusion
