@@ -85,7 +85,7 @@ A method for reducing the error in tendon slack length estimation is to optimize
 
 Two ranges of motion are used to estimate the optimal fiber length and tendon slack length of muscles based on observed fiber lengths during motion. The first is the model's full range of motion, and the second is the observed range of motion during walking. For these ranges, the normalized fiber length ranges were set to (0.5, 1.5) for the full ROM and (0.6, 1.2) for walking.
 
-{{< embed notebooks/tsl_optimization.ipynb#tbl-tsl-comparison >}}
+Results are written to `data/parameters/tsl_comparison.csv` by `make 04`.
 
 Any tendon slack lengths estimated as 0 are set to rigid.
 
