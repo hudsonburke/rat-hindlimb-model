@@ -130,9 +130,14 @@ def optimize_tsl_for_model(
 
         if tsl_val is not None:
             print(f"{tsl_val:.2f}mm", flush=True)
-            rows.append({"Abbreviation": abbrev, "TSL (mm)": tsl_val})
         else:
             print("FAILED", flush=True)
-            rows.append({"Abbreviation": abbrev, "TSL (mm)": None})
+
+        row = {"Abbreviation": abbrev}
+        if walk_lengths is not None:
+            row["Walk TSL (mm)"] = tsl_val
+        else:
+            row["Full ROM TSL (mm)"] = tsl_val
+        rows.append(row)
 
     return pl.DataFrame(rows).sort("Abbreviation")
