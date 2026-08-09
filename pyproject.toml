@@ -31,9 +31,6 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 packages = ["rathindlimb"]
 
-[tool.setuptools.package-dir]
-rathindlimb = "utilities"
-
 [tool.pytest.ini_options]
-pythonpath = ["utilities"]
+pythonpath = ["rathindlimb"]
 testpaths = ["tests"]

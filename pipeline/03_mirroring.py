@@ -8,31 +8,22 @@ anatomy, joints, and muscles.
 """
 
 # %% Imports
+import os
 import opensim as osim
-import sys
 from pathlib import Path
 
+from rathindlimb.model_utils import update_model, remove_muscles
+
 # %% Setup paths
-project_root = Path.cwd().resolve()
-if project_root.name == "pipeline":
-    project_root = project_root.parent.parent
-elif project_root.name == "notebooks":
-    project_root = project_root.parent
-
-src_dir = project_root / "src"
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
-from rathindlimb.processing import update_model
-from rathindlimb.muscle_utils import remove_muscles
-
-model_dir = project_root / "models" / "osim"
-pipeline_dir = model_dir / ".pipeline"
+project_root = Path.cwd().resolve().parent
+model_dir = project_root / "models" / "input"
+output_dir = project_root / "models" / "output"
+pipeline_dir = output_dir / ".pipeline"
 pipeline_dir.mkdir(parents=True, exist_ok=True)
 
-unilateral_file = model_dir / "rat_hindlimb_unilateral.osim"
-bilateral_out = model_dir / "rat_hindlimb_bilateral.osim"
-bilateral_no_muscles_out = model_dir / "rat_hindlimb_bilateral_no_muscles.osim"
+unilateral_file = output_dir / "rat_hindlimb_unilateral.osim"
+bilateral_out = output_dir / "rat_hindlimb_bilateral.osim"
+bilateral_no_muscles_out = output_dir / "rat_hindlimb_bilateral_no_muscles.osim"
 
 model = osim.Model(str(unilateral_file))
 
@@ -209,5 +200,4 @@ print(f"Wrote {bilateral_out}")
 print(f"Wrote {bilateral_no_muscles_out}")
 
 # OpenSim bindings segfault during interpreter shutdown; exit cleanly
-import os
 os._exit(0)

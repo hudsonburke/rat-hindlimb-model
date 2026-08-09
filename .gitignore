@@ -4,14 +4,14 @@
 *.egg-info/
 .venv/
 data/mocap/
+uv.lock
 
+# Pipeline build artifacts
+models/osim/
+models/output/
 
 # Quarto outputs
 _freeze/
 .jupyter_cache/
-model_edits_executed_files/
-models/osim/.build/
-models/osim/.pipeline/
-/.quarto/
+.quarto/
 **/*.quarto_ipynb
-.windows-serialuv.lock
