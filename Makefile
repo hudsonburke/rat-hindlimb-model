@@ -34,8 +34,16 @@ sync:
 04: sync
 	cd pipeline && uv run python 04_tsl_optimization.py
 
-# Recompute tendon slack lengths using tsl-optimization package (alias for 04)
-tsl: 04
+# 04b — TSL from Eng 2008 Lf/Lm ratios applied to model LMT
+04b: sync
+	cd pipeline && uv run python 04b_tsl_from_eng.py
+
+# 04c — Merge all TSL estimates into a comparison table
+04c: sync
+	cd pipeline && uv run python 04c_tsl_comparison.py
+
+# Recompute all TSL estimates and comparison (alias)
+tsl: 04 04b 04c
 
 # Analyze muscle length profiles across range of motion
 lengths: sync
