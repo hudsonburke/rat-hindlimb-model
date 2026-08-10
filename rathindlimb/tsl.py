@@ -8,7 +8,7 @@ import numpy as np
 import opensim as osim
 import polars as pl
 from osimpy.osim_graph import OsimGraph
-from tsl_optimization import calc_tsl, optimize_fiber_length_and_tsl
+from tsl_optimization import optimize_fiber_length_and_tsl
 
 
 @contextmanager
