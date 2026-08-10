@@ -79,15 +79,56 @@ Muscle-specific edits (Thelen-to-Millard conversion, wrap/path redefinition, par
 
 ## Estimate tendon slack length
 
-Johnson reports tendon slack lengths based on anatomical measurements. However, the literature reports large inaccuracies for tendon slack length values measured this way. It is also said to be one of the most influential parameters in simulating muscle force production.
+Tendon slack length (TSL) is one of the most influential parameters in muscle force production, yet anatomical measurements are notoriously inaccurate. We estimate TSL using the method of Manal & Buchanan (2004), extended to multiple muscles by Ramalingasetty et al. (2021).
 
-A method for reducing the error in tendon slack length estimation is to optimize it based on muscle fiber lengths observed during motion. This method was originally proposed in [@manalSubjectSpecificEstimatesTendon2004] but was limited to a single muscle crossing a single joint. Subsequent works, namely [@ramalingasettyWholeBodyMusculoskeletalModel2021], have applied this methodology to an array of muscles crossing multiple joints.
+### Method
 
-Two ranges of motion are used to estimate the optimal fiber length and tendon slack length of muscles based on observed fiber lengths during motion. The first is the model's full range of motion, and the second is the observed range of motion during walking. For these ranges, the normalized fiber length ranges were set to (0.5, 1.5) for the full ROM and (0.6, 1.2) for walking.
+The approach uses observed muscle-tendon lengths during motion to find a single TSL that is consistent across all sampled poses. For each muscle at each walking pose, the muscle-tendon length (LMT) is computed from the model kinematics. The optimizer then jointly finds:
+
+1. **Fiber length at each pose** — constrained to the normalized range [0.6, 1.5] × lm_opt
+2. **A single shared TSL** — enforced across all poses simultaneously
+
+The objective minimizes the mismatch between the geometric tendon length (LMT − fiber × cos(pennation)) and the tendon length implied by the muscle's force-equilibrium curves, subject to a no-buckling constraint (tendon length ≥ slack length at every pose).
+
+Walking kinematics are sampled at resolution=5 (5 points per coordinate per timestep, mean ± 2 standard deviations across 202 timesteps), then averaged back to one LMT per timestep before optimization. This captures the walking variability while keeping the optimizer tractable (201 variables per muscle).
+
+Implementation: [pipeline/04_tsl_optimization.py](pipeline/04_tsl_optimization.py) calls `optimize_fiber_length_and_tsl` from the [`tsl-optimization`](https://github.com/hudsonburke/tsl-optimization) package.
+
+### Comparison with measured values
+
+The table below compares our optimized TSL against anatomical measurements from Johnson et al. (2011) and Eng et al. (2008). Johnson reports TSL from direct tendon measurement; Eng reports fiber length (Lf) and total muscle length (Lm), from which we can compute the expected TSL fraction.
+
+| Muscle | Johnson lts (mm) | Eng Lf/Lm | Optimized TSL (mm) |
+|--------|-----------------:|----------:|-------------------:|
+| EDL    | 9.0              | 0.48      | 38.9               |
+| FDL    | 8.7              | 0.30      | 45.1               |
+| FHL    | 9.7              | 0.51      | 40.7               |
+| Sol    | 9.5              | 0.69      | 21.2               |
+| TA     | 11.9             | 0.57      | 21.4               |
+| LG     | 9.4              | 0.46      | 30.2               |
+| MG     | 9.1              | 0.45      | 29.6               |
+| TP     | 12.4             | 0.23      | 36.1               |
+| Pla    | 6.7              | 0.34      | 30.0               |
+| Per    | 12.7             | 0.32      | 37.0               |
+| VL     | 6.6              | 0.57      | 20.0               |
+| VM     | 6.6              | 0.61      | 24.0               |
+| RF     | —                | —         | 24.8               |
+| STa    | —                | —         | 9.0                |
+| BFa    | —                | —         | 5.0                |
 
 Results are written to `data/parameters/tsl_comparison.csv` by `make 04`.
 
-Any tendon slack lengths estimated as 0 are set to rigid.
+### Why our values differ from Johnson's
+
+Our optimized TSL values are consistently larger than Johnson's measured values. This is expected and results from two factors:
+
+1. **Different muscle paths.** Johnson's model uses wrapping surfaces; ours uses Young's via-point attachment points. The via-point paths are longer for many muscles (e.g., EDL's path is 55mm vs ~37mm in Johnson's model) because they route through intermediate bodies rather than wrapping over surfaces.
+
+2. **Different lm_opt / LMT ratios.** Johnson's optimal fiber lengths were designed for Johnson's shorter paths. With longer paths, the fiber (capped at 1.5 × lm_opt) cannot account for the extra length, so TSL absorbs the difference.
+
+The optimized TSL values are correct *given the model's muscle paths*. To reduce them, the muscle paths themselves would need to be shortened (e.g., by adjusting via-point positions or the mesh registration that maps Young's coordinates to Johnson's frame).
+
+Any tendon slack lengths estimated as ≤ 0 are set to rigid tendon compliance.
 
 ## Mirror the model
 
