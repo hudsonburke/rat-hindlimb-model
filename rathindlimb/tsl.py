@@ -30,14 +30,22 @@ def _timeout(seconds: int | None, muscle_name: str):
         signal.signal(signal.SIGALRM, old)
 
 
+
 def _extract_curves(muscle: osim.Muscle):
-    """Extract OpenSim force-length curves from a Millard muscle."""
+    """Extract OpenSim force-length curves as numpy arrays (picklable)."""
     millard = osim.Millard2012EquilibriumMuscle.safeDownCast(muscle)
     return (
-        millard.getActiveForceLengthCurve(),
-        millard.getFiberForceLengthCurve(),
-        millard.getTendonForceLengthCurve(),
+        _curve_to_array(millard.getActiveForceLengthCurve()),
+        _curve_to_array(millard.getFiberForceLengthCurve()),
+        _curve_to_array(millard.getTendonForceLengthCurve()),
     )
+
+
+def _curve_to_array(curve, n_samples: int = 5000, x_range: tuple = (-0.5, 3.0)):
+    """Sample an OpenSim Function into a numpy array [2, n_samples]."""
+    x = np.linspace(*x_range, n_samples)
+    y = np.array([curve.calcValue(float(v)) for v in x])
+    return np.vstack([x, y])
 
 
 def _optimize_single(
@@ -48,32 +56,15 @@ def _optimize_single(
     pfl,
     tfl,
     lm_norm_range: tuple[float, float],
-    max_evaluations: int = 5000,
-    max_points: int = 500,
+    max_evaluations: int = 2000,
 ) -> float | None:
-    """Run fiber-length optimization and return mean TSL in mm, or None on failure.
-
-    Subsamples lmt to max_points for the optimizer (SLSQP scales poorly
-    with variable count), then computes TSL on the full dataset.
-    """
+    """Run fiber-length optimization and return mean TSL in mm, or None on failure."""
     try:
-        # Subsample for optimization if too many points
-        if len(lmt) > max_points:
-            indices = np.linspace(0, len(lmt) - 1, max_points, dtype=int)
-            lmt_opt = lmt[indices]
-        else:
-            lmt_opt = lmt
-
         lm = optimize_fiber_length(
-            lmt_opt, lm_opt, alpha_opt, afl, pfl, tfl,
+            lmt, lm_opt, alpha_opt, afl, pfl, tfl,
             lm_norm_range, max_evaluations=max_evaluations,
         )
-        # Compute TSL on the full dataset using interpolated fiber lengths
-        if len(lmt) > max_points:
-            lm_full = np.interp(lmt, lmt_opt, lm)
-        else:
-            lm_full = lm
-        tsl = calc_tsl(lmt, lm_full, lm_opt, alpha_opt, afl, pfl, tfl)
+        tsl = calc_tsl(lmt, lm, lm_opt, alpha_opt, afl, pfl, tfl)
         return float(np.mean(tsl)) * 1000
     except (RuntimeError, TimeoutError):
         return None
@@ -83,11 +74,11 @@ def optimize_tsl_for_model(
     graph: OsimGraph,
     walk_data: pl.DataFrame | None = None,
     lm_norm_range: tuple[float, float] = (0.5, 1.5),
-    lm_walk_range: tuple[float, float] = (0.6, 1.2),
+    lm_walk_range: tuple[float, float] = (0.6, 1.5),
     min_points: int = 50,
     max_evaluations: int = 2000,
-    max_opt_points: int = 500,
-    timeout_seconds: int | None = 30,
+    timeout_seconds: int | None = None,
+    n_walk_timesteps: int | None = None,
 ) -> pl.DataFrame:
     """
     Optimize tendon slack lengths for all muscles in the model.
@@ -103,8 +94,7 @@ def optimize_tsl_for_model(
     lm_walk_range : normalized fiber length range for walking
     min_points : minimum sample points for full ROM evaluation
     max_evaluations : max optimizer iterations per muscle
-    max_opt_points : subsample size for optimizer (SLSQP scales with variable count)
-    timeout_seconds : per-muscle timeout in seconds, or None to disable (Unix only)
+    timeout_seconds : per-muscle timeout in seconds, or None to disable
 
     Returns
     -------
@@ -134,9 +124,12 @@ def optimize_tsl_for_model(
         afl, pfl, tfl = _extract_curves(muscle)
         abbrev = muscle_name.split("R_")[-1] if "R_" in muscle_name else muscle_name
 
-        # Determine which data source to use
         if walk_lengths is not None:
-            lmt_raw = walk_lengths.select(muscle_name).to_numpy()
+            lmt_raw = walk_lengths.select(muscle_name).to_numpy().flatten()
+            # Average across resolution samples per timestep to get
+            # distribution-informed LMT while keeping variable count manageable
+            if n_walk_timesteps is not None and len(lmt_raw) > n_walk_timesteps:
+                lmt_raw = lmt_raw.reshape(n_walk_timesteps, -1).mean(axis=1)
             norm_range = lm_walk_range
         else:
             lmt_raw = full_rom_lengths[muscle_name].to_numpy()
@@ -147,7 +140,7 @@ def optimize_tsl_for_model(
         with _timeout(timeout_seconds, muscle_name):
             tsl_val = _optimize_single(
                 lmt, lm_opt, alpha_opt, afl, pfl, tfl,
-                norm_range, max_evaluations, max_opt_points,
+                norm_range, max_evaluations,
             )
 
         if tsl_val is not None:

@@ -31,10 +31,10 @@ walk_data = load_walking_ik(motion_file, resolution=2)
 tsl_df = optimize_tsl_for_model(
     graph,
     walk_data=walk_data,
-    lm_walk_range=(0.6, 1.2),
+    lm_walk_range=(0.6, 1.5),
     max_evaluations=2000,
-    max_opt_points=500,
-    timeout_seconds=30,
+    timeout_seconds=60,
+    n_walk_timesteps=202,
 )
 
 # %% Save results
