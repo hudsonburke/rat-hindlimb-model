@@ -8,7 +8,7 @@ import numpy as np
 import opensim as osim
 import polars as pl
 from osimpy.osim_graph import OsimGraph
-from tsl_optimization import calc_tsl, optimize_fiber_length
+from tsl_optimization import calc_tsl, optimize_fiber_length_and_tsl
 
 
 @contextmanager
@@ -58,14 +58,13 @@ def _optimize_single(
     lm_norm_range: tuple[float, float],
     max_evaluations: int = 2000,
 ) -> float | None:
-    """Run fiber-length optimization and return mean TSL in mm, or None on failure."""
+    """Run joint fiber-length + TSL optimization. Returns TSL in mm, or None on failure."""
     try:
-        lm = optimize_fiber_length(
+        lm, tsl = optimize_fiber_length_and_tsl(
             lmt, lm_opt, alpha_opt, afl, pfl, tfl,
-            lm_norm_range, max_evaluations=max_evaluations,
+            lm_norm_range, max_iterations=max_evaluations,
         )
-        tsl = calc_tsl(lmt, lm, lm_opt, alpha_opt, afl, pfl, tfl)
-        return float(np.mean(tsl)) * 1000
+        return tsl * 1000
     except (RuntimeError, TimeoutError):
         return None
 
