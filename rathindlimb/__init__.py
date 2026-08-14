@@ -33,6 +33,11 @@ def bilateral_markers() -> Path:
     return _MODELS_DIR / "input" / "xml" / "rat_hindlimb_bilateral_markers.xml"
 
 
+def bilateral_ik_setup() -> Path:
+    """Return the path to the bilateral IK setup XML."""
+    return _MODELS_DIR / "input" / "xml" / "rat_hindlimb_bilateral_ik_setup.xml"
+
+
 def unilateral_markers() -> Path:
     """Return the path to the unilateral marker set XML."""
     return _MODELS_DIR / "input" / "xml" / "rat_hindlimb_unilateral_markers.xml"

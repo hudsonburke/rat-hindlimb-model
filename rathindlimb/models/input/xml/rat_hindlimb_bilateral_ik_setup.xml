@@ -72,7 +72,6 @@
 					<!--Whether or not this task will be used during inverse kinematics solve.-->
 					<apply>true</apply>
 					<!--Weight given to a marker or coordinate for solving inverse kinematics problems.-->
-					<!-- TODO: Why are the knee weights different? -->
 					<weight>0.10000000000000001</weight>
 				</IKMarkerTask>
 				<IKMarkerTask name="LANK">
