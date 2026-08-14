@@ -29,6 +29,9 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 packages = ["rathindlimb"]
 
+[tool.setuptools.package-data]
+rathindlimb = ["models/**/*.osim", "models/**/*.xml", "models/**/*.stl"]
+
 [tool.pytest.ini_options]
 pythonpath = ["rathindlimb"]
 testpaths = ["tests"]
