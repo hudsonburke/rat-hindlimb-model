@@ -37,9 +37,14 @@ def _manual_scale_factors(
     }
 
 
-project_root = Path(__file__).resolve().parents[1]
-unscaled_model_path = project_root / "models" / "output" / "rat_hindlimb_bilateral.osim"
-xml_path = project_root / "models" / "input" / "xml"
+# Base directory for this package
+_PACKAGE_DIR = Path(__file__).resolve().parent
+
+# Models directory (bundled with package)
+_MODELS_DIR = _PACKAGE_DIR / "models"
+
+unscaled_model_path = _MODELS_DIR / "output" / "rat_hindlimb_bilateral.osim"
+xml_path = _MODELS_DIR / "input" / "xml"
 marker_set_path = xml_path / "rat_hindlimb_bilateral_markers.xml"
 generic_setup_path = xml_path / "rat_hindlimb_bilateral_scale_setup.xml"
 
