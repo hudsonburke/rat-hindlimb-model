@@ -5,21 +5,18 @@ description = "Rat hindlimb musculoskeletal model utilities"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "ezc3d",
-    "numpy",
-    "opensim>=4.6",
-    "open3d",
-    "osimpy",
-    "polars",
-    "scipy",
-    "tsl-optimization",
+  "ezc3d",
+  "numpy",
+  "opensim>=4.6",
+  "open3d",
+  "osimpy",
+  "polars",
+  "scipy",
+  "tsl-optimization",
 ]
 
 [project.optional-dependencies]
-dev = [
-    "marimo",
-    "pytest>=8",
-]
+dev = ["pytest>=8"]
 
 [tool.uv.sources]
 osimpy = { git = "https://github.com/hudsonburke/osimpy.git" }

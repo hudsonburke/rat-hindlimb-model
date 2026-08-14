@@ -6,9 +6,6 @@
 data/mocap/
 uv.lock
 
-# Pipeline build artifacts
-models/osim/
-models/output/
 
 # Quarto outputs
 _freeze/

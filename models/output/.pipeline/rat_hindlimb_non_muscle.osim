@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<OpenSimDocument Version="40000">
+<OpenSimDocument Version="40600">
 	<Model name="RatHindlimbRight">
 		<defaults>
 			<ControlLinear name="default">
@@ -16,8 +16,13 @@
 				<kv>20</kv>
 			</ControlLinear>
 			<Thelen2003Muscle name="default">
-				<!--The set of points defining the path of the actuator.-->
-				<GeometryPath name="geometrypath">
+				<!--The path of the actuator which defines length and lengthening speed.-->
+				<GeometryPath name="path">
+					<!--Default appearance attributes for this AbstractGeometryPath.-->
+					<Appearance>
+						<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+						<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+					</Appearance>
 					<!--The set of points defining the path-->
 					<PathPointSet>
 						<objects />
@@ -28,11 +33,6 @@
 						<objects />
 						<groups />
 					</PathWrapSet>
-					<!--Default appearance attributes for this GeometryPath-->
-					<Appearance>
-						<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-						<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-					</Appearance>
 				</GeometryPath>
 				<!--Maximum isometric force that the fibers can generate-->
 				<max_isometric_force>1000</max_isometric_force>
@@ -46,9 +46,9 @@
 				<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 				<!--passive muscle strain at maximum isometric muscle force-->
 				<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-				<!--shape factor for Gaussian active muscle force-length relationship_r-->
+				<!--shape factor for Gaussian active muscle force-length relationship-->
 				<KshapeActive>0.5</KshapeActive>
-				<!--exponential shape factor for passive force-length relationship_r-->
+				<!--exponential shape factor for passive force-length relationship-->
 				<KshapePassive>4</KshapePassive>
 				<!--force-velocity shape factor-->
 				<Af>0.29999999999999999</Af>
@@ -790,66 +790,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_pitch</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_roll</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_yaw</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_x</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_y</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacrum_z</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
@@ -911,66 +915,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>sacroiliac_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
@@ -1060,66 +1068,70 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>hip_r_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates></coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<Constant name="function">
 								<value>0</value>
 							</Constant>
@@ -1176,78 +1188,81 @@
 							<!--Path to a Component that satisfies the Socket 'parent' of type C (description: The parent frame to this frame.).-->
 							<socket_parent>/bodyset/tibia_r</socket_parent>
 							<!--Translational offset (in meters) of this frame's origin from the parent frame's origin, expressed in the parent frame.-->
-							<translation>0 0 0</translation>
+							<translation>-0.00056999999999999998 0.039959799999999997 0.0038162000000000001</translation>
 							<!--Orientation offset (in radians) of this frame in its parent frame, expressed as a frame-fixed x-y-z rotation sequence.-->
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
 								<y> -0.0872665 -0.0750492 -0.0645772 -0.0523599 -0.0401426 -0.0296706 -0.0174533 -0.00523599 0.00523599 0.0174533 0.0296706 0.0401426 0.0523599 0.0645772</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
-							<SimmSpline name="function">
-								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
-								<y> 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799 0.261799</y>
-							</SimmSpline>
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
+							<Constant name="function">
+								<value>0.261799</value>
+							</Constant>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
-								<y> -0.02492 -0.0301 -0.03449 -0.03798 -0.04049 -0.04196 -0.04232 -0.04156 -0.03968 -0.0367 -0.03267 -0.02769 -0.02188 -0.01539</y>
+								<y> -0.00523853 -0.00464648 -0.00404257 -0.00347254 -0.00297965 -0.00259079 -0.00229943 -0.00211001 -0.00199564 -0.00193207 -0.00187048 -0.00177935 -0.00163827 -0.0014134</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
-								<y> 0.00082 -0.00322 -0.00805 -0.01353 -0.01952 -0.02588 -0.03244 -0.03905 -0.04552 -0.05167 -0.05732 -0.06229 -0.0664 -0.0695</y>
+								<y> -0.0341684 -0.0342539 -0.0341856 -0.0339723 -0.0336511 -0.0332785 -0.0328898 -0.0325504 -0.0322825 -0.0321161 -0.0320632 -0.0321105 -0.0322397 -0.0324144</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>knee_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -2.61799 -2.44346 -2.26893 -2.0944 -1.91986 -1.74533 -1.5708 -1.39626 -1.22173 -1.0472 -0.872665 -0.698132 -0.523599 -0.349066</x>
-								<y> 0.00227 0.00198 0.00161 0.00117 0.00067 0.00013 -0.00043 -0.00101 -0.00157 -0.00211 -0.00261 -0.00305 -0.00342 -0.00371</y>
+								<y> 0.00260302 0.00280341 0.00285365 0.00290375 0.00289358 0.00277318 0.00270235 0.00261105 0.0024695 0.00241714 0.0024041 0.0023809 0.00249641 0.00269104</y>
 							</SimmSpline>
 						</TransformAxis>
 					</SpatialTransform>
@@ -1281,7 +1296,7 @@
 							<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
 							<clamped>true</clamped>
 							<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
-							<locked>false</locked>
+							<locked>true</locked>
 							<!--If specified, the coordinate can be prescribed by a function of time. It can be any OpenSim Function with valid second order derivatives.-->
 							<prescribed_function />
 							<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
@@ -1295,7 +1310,7 @@
 							<!--Flag indicating whether or not the values of the coordinates should be limited to the range, above.-->
 							<clamped>true</clamped>
 							<!--Flag indicating whether or not the values of the coordinates should be constrained to the current (e.g. default) value, above.-->
-							<locked>false</locked>
+							<locked>true</locked>
 							<!--If specified, the coordinate can be prescribed by a function of time. It can be any OpenSim Function with valid second order derivatives.-->
 							<prescribed_function />
 							<!--Flag indicating whether or not the values of the coordinates should be prescribed according to the function above. It is ignored if the no prescribed function is specified.-->
@@ -1335,68 +1350,72 @@
 							<orientation>0 0 0</orientation>
 						</PhysicalOffsetFrame>
 					</frames>
-					<!--Defines how the child body moves with respect to the parent as a function of the generalized coordinates.-->
+					<!--The spatial transform defining how the child body moves with respectto the parent as a function of the generalized coordinates.-->
 					<SpatialTransform>
-						<!--3 Axes for rotations are listed first.-->
+						<!--The first TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The second TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_add</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
+						<!--The third TransformAxis defining a rotation about an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="rotation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_int</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<LinearFunction name="function">
 								<coefficients> 1 0</coefficients>
 							</LinearFunction>
 						</TransformAxis>
-						<!--3 Axes for translations are listed next.-->
+						<!--The first TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation1">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>1 0 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The second TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation2">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 1 0</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
 							</SimmSpline>
 						</TransformAxis>
+						<!--The third TransformAxis defining a translation along an axis with to a set of generalized coordinates.-->
 						<TransformAxis name="translation3">
-							<!--Names of the coordinates that serve as the independent variables         of the transform function.-->
+							<!--The names of the generalized coordinates that serve as the independent variables of the transform function.-->
 							<coordinates>ankle_r_flx</coordinates>
-							<!--Rotation or translation axis for the transform.-->
+							<!--The rotation or translation axis for the transform. Default: (1,0,0).-->
 							<axis>0 0 1</axis>
-							<!--Transform function of the generalized coordinates used to        represent the amount of displacement along a specified axis.-->
+							<!--The transform function with respect to the generalized coordinates used to represent the amount of displacement about or along the TransformAxis. Default: Constant(0).-->
 							<SimmSpline name="function">
 								<x> -0.523599 -0.349066 -0.174533 0 0.174533 0.349066 0.523599 0.698132 0.872665 1.0472</x>
 								<y> 0 0 0 0 0 0 0 0 0 0</y>
@@ -1420,8 +1439,13 @@
 		<ForceSet name="forceset">
 			<objects>
 				<Thelen2003Muscle name="R_BFa">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1462,11 +1486,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3.3999999999999999</max_isometric_force>
@@ -1480,9 +1499,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1494,8 +1513,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_BFp">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1536,11 +1560,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>12.5</max_isometric_force>
@@ -1554,9 +1573,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1568,8 +1587,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_CF">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1610,11 +1634,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.1000000000000001</max_isometric_force>
@@ -1628,9 +1647,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1642,8 +1661,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_STp">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1692,11 +1716,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3.3999999999999999</max_isometric_force>
@@ -1710,9 +1729,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1724,8 +1743,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_STa">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1766,11 +1790,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>12.5</max_isometric_force>
@@ -1784,9 +1803,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1798,8 +1817,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_SM">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1832,11 +1856,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>10.300000000000001</max_isometric_force>
@@ -1850,9 +1869,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1864,8 +1883,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_QF">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1898,11 +1922,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3</max_isometric_force>
@@ -1916,9 +1935,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1930,8 +1949,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_TFL">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -1955,11 +1979,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.8999999999999999</max_isometric_force>
@@ -1973,9 +1992,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -1987,8 +2006,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GMa">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2021,11 +2045,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>9.3000000000000007</max_isometric_force>
@@ -2039,9 +2058,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2053,8 +2072,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GMe">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2095,11 +2119,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>18.800000000000001</max_isometric_force>
@@ -2113,9 +2132,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2127,8 +2146,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GMi">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2152,11 +2176,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>7.4000000000000004</max_isometric_force>
@@ -2170,9 +2189,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2184,8 +2203,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_Pir">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2209,11 +2233,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>11.199999999999999</max_isometric_force>
@@ -2227,9 +2246,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2241,8 +2260,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GP">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2275,11 +2299,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.3999999999999999</max_isometric_force>
@@ -2293,9 +2312,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2307,8 +2326,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GA">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2341,11 +2365,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>1.6000000000000001</max_isometric_force>
@@ -2359,9 +2378,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2373,8 +2392,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_AL">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2398,11 +2422,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>1</max_isometric_force>
@@ -2416,9 +2435,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2430,8 +2449,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_AM">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2455,11 +2479,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3</max_isometric_force>
@@ -2473,9 +2492,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2487,8 +2506,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_AB">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2512,11 +2536,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>12.199999999999999</max_isometric_force>
@@ -2530,9 +2549,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2544,8 +2563,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_Pec">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2569,11 +2593,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3.7000000000000002</max_isometric_force>
@@ -2587,9 +2606,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2601,8 +2620,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_IP">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2626,11 +2650,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>16.300000000000001</max_isometric_force>
@@ -2644,9 +2663,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2658,8 +2677,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_OE">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2683,11 +2707,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>7.2000000000000002</max_isometric_force>
@@ -2701,9 +2720,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2715,8 +2734,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_OI">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2740,11 +2764,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3</max_isometric_force>
@@ -2758,9 +2777,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2772,8 +2791,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GS">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2797,11 +2821,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>0.40000000000000002</max_isometric_force>
@@ -2815,9 +2834,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2829,8 +2848,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_GI">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2854,11 +2878,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.8999999999999999</max_isometric_force>
@@ -2872,9 +2891,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2886,8 +2905,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_RF">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -2928,11 +2952,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>16.5</max_isometric_force>
@@ -2946,9 +2965,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -2960,8 +2979,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_VL">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3002,11 +3026,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>14.9</max_isometric_force>
@@ -3020,9 +3039,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3034,8 +3053,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_VI">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3076,11 +3100,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.6000000000000001</max_isometric_force>
@@ -3094,9 +3113,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3108,8 +3127,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_VM">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3150,11 +3174,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>6.0999999999999996</max_isometric_force>
@@ -3168,9 +3187,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3182,8 +3201,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_MG">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3207,11 +3231,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>11.699999999999999</max_isometric_force>
@@ -3225,9 +3244,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3239,8 +3258,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_LG">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3264,11 +3288,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>18.300000000000001</max_isometric_force>
@@ -3282,9 +3301,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3296,8 +3315,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_Pla">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3321,11 +3345,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>5.5999999999999996</max_isometric_force>
@@ -3339,9 +3358,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3353,8 +3372,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_Sol">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3378,11 +3402,6 @@
 							<objects />
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>1.3999999999999999</max_isometric_force>
@@ -3396,9 +3415,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3410,8 +3429,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_TA">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3452,11 +3476,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>8.5999999999999996</max_isometric_force>
@@ -3470,9 +3489,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3484,8 +3503,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_EDL">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3526,11 +3550,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.2000000000000002</max_isometric_force>
@@ -3544,9 +3563,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3558,8 +3577,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_TP">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3600,11 +3624,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>3.6000000000000001</max_isometric_force>
@@ -3618,9 +3637,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3632,8 +3651,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_FDL">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3674,11 +3698,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>11.1</max_isometric_force>
@@ -3692,9 +3711,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3706,8 +3725,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_FHL">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3748,11 +3772,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>0.20000000000000001</max_isometric_force>
@@ -3766,9 +3785,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3780,8 +3799,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_Per">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3822,11 +3846,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>7.7000000000000002</max_isometric_force>
@@ -3840,9 +3859,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3854,8 +3873,13 @@
 					<deactivation_time_constant>0.040000000000000001</deactivation_time_constant>
 				</Thelen2003Muscle>
 				<Thelen2003Muscle name="R_Pop">
-					<!--The set of points defining the path of the actuator.-->
-					<GeometryPath name="geometrypath">
+					<!--The path of the actuator which defines length and lengthening speed.-->
+					<GeometryPath name="path">
+						<!--Default appearance attributes for this AbstractGeometryPath.-->
+						<Appearance>
+							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
+							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
+						</Appearance>
 						<!--The set of points defining the path-->
 						<PathPointSet>
 							<objects>
@@ -3888,11 +3912,6 @@
 							</objects>
 							<groups />
 						</PathWrapSet>
-						<!--Default appearance attributes for this GeometryPath-->
-						<Appearance>
-							<!--The color, (red, green, blue), [0, 1], used to display the geometry. -->
-							<color>0.80000000000000004 0.10000000000000001 0.10000000000000001</color>
-						</Appearance>
 					</GeometryPath>
 					<!--Maximum isometric force that the fibers can generate-->
 					<max_isometric_force>2.8999999999999999</max_isometric_force>
@@ -3906,9 +3925,9 @@
 					<FmaxTendonStrain>0.033000000000000002</FmaxTendonStrain>
 					<!--passive muscle strain at maximum isometric muscle force-->
 					<FmaxMuscleStrain>0.59999999999999998</FmaxMuscleStrain>
-					<!--shape factor for Gaussian active muscle force-length relationship_r-->
+					<!--shape factor for Gaussian active muscle force-length relationship-->
 					<KshapeActive>0.5</KshapeActive>
-					<!--exponential shape factor for passive force-length relationship_r-->
+					<!--exponential shape factor for passive force-length relationship-->
 					<KshapePassive>4</KshapePassive>
 					<!--force-velocity shape factor-->
 					<Af>0.29999999999999999</Af>
@@ -3956,45 +3975,61 @@
 		<!--Markers in the model.-->
 		<MarkerSet name="markerset">
 			<objects>
-				<Marker name="R_Iliac_Crest">
+				<Marker name="RASI">
 					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
 					<socket_parent_frame>/bodyset/pelvis_r</socket_parent_frame>
 					<!--The fixed location of the station expressed in its parent frame.-->
-					<location>0.028000000000000001 0.0040000000000000001 0.01</location>
+					<location>0.028000000000000001 0.0040000000000000001 0.0030000000000000001</location>
 					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
 					<fixed>false</fixed>
 				</Marker>
-				<Marker name="R_Hip">
+				<Marker name="RHIP">
 					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
 					<socket_parent_frame>/bodyset/pelvis_r</socket_parent_frame>
 					<!--The fixed location of the station expressed in its parent frame.-->
-					<location>-0.0050000000000000001 0.0050000000000000001 0.01</location>
+					<location>-0.001 0.001 0.01</location>
 					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
 					<fixed>false</fixed>
 				</Marker>
-				<Marker name="R_Knee">
+				<Marker name="RKNE">
 					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
 					<socket_parent_frame>/bodyset/femur_r</socket_parent_frame>
 					<!--The fixed location of the station expressed in its parent frame.-->
-					<location>0 -0.035000000000000003 0</location>
+					<location>0 -0.035000000000000003 0.0030000000000000001</location>
 					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
 					<fixed>false</fixed>
 				</Marker>
-				<Marker name="R_Ankle">
+				<Marker name="RANK">
 					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
 					<socket_parent_frame>/bodyset/tibia_r</socket_parent_frame>
 					<!--The fixed location of the station expressed in its parent frame.-->
 					<location>0 0 0.0040000000000000001</location>
 					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
-					<fixed>false</fixed>
+					<fixed>true</fixed>
 				</Marker>
-				<Marker name="R_Toe">
+				<Marker name="RTOE">
 					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
 					<socket_parent_frame>/bodyset/foot_r</socket_parent_frame>
 					<!--The fixed location of the station expressed in its parent frame.-->
 					<location>0.014999999999999999 -0.0050000000000000001 0.0050000000000000001</location>
 					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
+					<fixed>true</fixed>
+				</Marker>
+				<Marker name="TAIL">
+					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
+					<socket_parent_frame>/bodyset/spine</socket_parent_frame>
+					<!--The fixed location of the station expressed in its parent frame.-->
+					<location>-0.0079713500000000003 0.0077583900000000004 0</location>
+					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
 					<fixed>false</fixed>
+				</Marker>
+				<Marker name="SPL6">
+					<!--Path to a Component that satisfies the Socket 'parent_frame' of type PhysicalFrame (description: The frame to which this station is fixed.).-->
+					<socket_parent_frame>/bodyset/spine</socket_parent_frame>
+					<!--The fixed location of the station expressed in its parent frame.-->
+					<location>0.030669800000000001 0.0151176 0</location>
+					<!--Flag (true or false) specifying whether the marker is fixed in its parent frame during the marker placement step of scaling.  If false, the marker is free to move within its parent Frame to match its experimental counterpart.-->
+					<fixed>true</fixed>
 				</Marker>
 			</objects>
 			<groups />
